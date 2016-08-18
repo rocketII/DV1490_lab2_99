@@ -5,6 +5,7 @@
 #ifndef DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
 #define DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
 
+#include <string>
 #include <stddef.h>
 #include "ICircularDoubleDirectedList.h"
 
@@ -16,7 +17,7 @@ private:
     {
     public:
         T data;
-        Node* next, prev;
+        Node* next, *prev;
         Node(T data): prev(nullptr), next(nullptr), data(data) { }
         ~Node(){};
     };
@@ -116,26 +117,81 @@ template <class T>
   o Den nod som innehåller item tas bort. Om den nod som tas bort är den nod som
     är aktuell (current pekar på denna) ska aktuell nod bli efterföljande nod.
  */
-bool CircularDoubleDirectedList<T>::remove(T &item)
+bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
 {
-    for (int i = 0; i < ; ++i) {
-
+    Node* rememberCurrent = this->current;
+    bool flag = false;
+    if(this->nrOfItems == 0)
+    {
+        throw std::string("Exception: call of remove on empty list");
     }
-    return false;
+    else
+    {
+        do
+        {
+            if(this->current->data == item)
+            {
+                this->current->next->prev = this->current->prev;
+                this->current->prev->next = this->current->next;
+                this->current = this->current->prev;
+                delete this->current;
+                this->nrOfItems--;
+                flag = true;
+            }
+            else
+            {
+                if(this->current->prev != nullptr)
+                    this->current = this->current->prev;
+
+            }
+        } while ( this->current->prev != nullptr);
+        do
+        {
+            if(this->current->data == item)
+            {
+                this->current->next->prev = this->current->prev;
+                this->current->prev->next = this->current->next;
+                this->current = this->current->prev;
+                delete this->current;
+                this->nrOfItems--;
+                flag = true;
+            }
+            else
+                this->;
+        }while ( this->current->prev != nullptr);
+    }
+    this->current = rememberCurrent;
+    return flag;
 }
 
 template <class T>
+// o Returnerar antalet element som finns i listan.
 int CircularDoubleDirectedList<T>::size() const
 {
     return this->nrOfItems;
 }
 
 template <class T>
+/*
+ * o Om listan är tom kastas strängen ” Exception: call of currentItem on empty list”
+     som undantag.
+   o Returnerar det element som är aktuellt (som finns i den nod som current pekar
+     på).
+ */
 T &CircularDoubleDirectedList<T>::currentItem()
 {
-    return *this->current;
+    if(this->nrOfItems == 0)
+    {
+        throw std::string("Exception: call of remove on empty list");
+    }
+    else
+    {
+        return this->current->data;
+    }
+
 }
 template <class T>
+// o Ändrar riktningen för listan
 void CircularDoubleDirectedList<T>::changeDirection()
 {
     if(this->currentDirection == NEXT)
@@ -144,9 +200,39 @@ void CircularDoubleDirectedList<T>::changeDirection()
         this->currentDirection = NEXT;
 }
 template <class T>
-void CircularDoubleDirectedList<T>::move()
+/*
+ * o Om listan är tom kastas strängen ” Exception: call of move on empty list” som
+     undantag.
+   o Ändrar current till ”nästa” nod enligt den riktning som ges av
+     currentDirection.
+ */
+void CircularDoubleDirectedList<T>::move() throw(std::string)
 {
-
+    if(this->nrOfItems == 0)
+    {
+        throw std::string("Exception: call of move on empty list");
+    }
+    else
+    {
+        if( this->currentDirection == NEXT)
+        {
+            if(this->current->next == nullptr )
+                ;
+            else
+            {
+                this->current = this->current->next;
+            }
+        }
+        else if ( this->currentDirection == PREV)
+        {
+            if(this->current->prev == nullptr )
+                ;
+            else
+            {
+                this->current = this->current->prev;
+            }
+        }
+    }
 }
 /////////////////////////////////////////////////////////////
 #endif //DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
