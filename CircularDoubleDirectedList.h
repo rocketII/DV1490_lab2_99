@@ -1,7 +1,6 @@
 //
 // Created by root on 2016-08-18.
 //
-
 #ifndef DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
 #define DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
 
@@ -21,25 +20,26 @@ private:
         Node(T data): prev(nullptr), next(nullptr), data(data) { }
         ~Node(){};
     };
-    T hold_DBG;
+
     int nrOfItems;
     direction currentDirection;
     Node* current;
 public:
     //necesary
-    CircularDoubleDirectedList() : hold_DBG(2), currentDirection(NEXT) {} //inline but so small.
+    CircularDoubleDirectedList() :  currentDirection(NEXT), nrOfItems(0), current(nullptr) {} //inline but so small.
     CircularDoubleDirectedList(const CircularDoubleDirectedList& origin);
     virtual ~CircularDoubleDirectedList();
     //other
     CircularDoubleDirectedList& operator=(const CircularDoubleDirectedList& origin);
     //Inherited
     virtual void add(T& item);
-    virtual bool remove(T& item); // requires == operator of item
+    virtual bool remove(T& item) throw(std::string); // requires == operator of item
     virtual int size() const;
-    virtual T& currentItem();
+    virtual T& currentItem() throw(std::string);
     virtual void changeDirection();
-    virtual void move();
+    virtual void move()throw(std::string);
 };
+
 
 template <class T>
 CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDirectedList &origin)
@@ -48,6 +48,7 @@ CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDi
     this->current = nullptr;
     if (origin.nrOfItems > 0)
     {
+        /*
         this->nrOfItems = origin.nrOfItems;
         this->first = new Node(origin.first->data);
         //alternative 2
@@ -61,9 +62,11 @@ CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDi
             walker = walker->next;
             endNodePtr->next= new Node(walker->data);
             endNodePtr = endNodePtr->next;
-        }
+        }*/
     }
 }
+
+
 template <class T>
 CircularDoubleDirectedList<T>::~CircularDoubleDirectedList()
 {
@@ -79,6 +82,8 @@ CircularDoubleDirectedList<T>::~CircularDoubleDirectedList()
         }
     }
 }
+
+
 template <class T>
 CircularDoubleDirectedList<T> &CircularDoubleDirectedList<T>::operator=(const CircularDoubleDirectedList<T> &origin)
 {
@@ -88,45 +93,52 @@ CircularDoubleDirectedList<T> &CircularDoubleDirectedList<T>::operator=(const Ci
     }
     return *this;
 }
+
 ///////////////////////////////////////////////
+
 template <class T>
 /*
  *o Om listan är tom skapas en nod för item vilken blir den enda noden i listan. Den
     nya noden är därefter aktuell nod.
   o En ny nod skapas för item vilken placeras efter aktuell nod, d.v.s blir efterföljare
     till aktuell nod. Den nya noden ska därefter bli aktuell nod.
- */
+ */ //description
 void CircularDoubleDirectedList<T>::add(T &item)
 {
-    if(this->nrOfItems == 0) {
+    if(this->nrOfItems == 0)
+    {
         this->current = new Node(item);
         this->nrOfItems++;
     }
     else
     {
-        this->current->next = new Node(item);
-        this->current->next->prev = this->current;
-        this->current = this->current->next;
+        this->current->next = new Node(item); // or this->current->prev = new Node(item);
+        this->current->next->prev = this->current; // or this->current->prev->next = this->current;
+        this->current = this->current->next;  // or this->current = this->current->prev;
         this->nrOfItems++;
     }
 }
+
+
 template <class T>
 /*
  *o Om listan är tom kastas strängen ”Exception: call of remove on empty list” som
     undantag.
   o Den nod som innehåller item tas bort. Om den nod som tas bort är den nod som
     är aktuell (current pekar på denna) ska aktuell nod bli efterföljande nod.
- */
+ */ //description
 bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
 {
     Node* rememberCurrent = this->current;
     bool flag = false;
-    if(this->nrOfItems == 0)
+    Node* exterminate = nullptr;
+    if(this->nrOfItems < 0)
     {
         throw std::string("Exception: call of remove on empty list");
     }
     else
     {
+        //search down. linear time.
         do
         {
             if(this->current->data == item)
@@ -134,7 +146,8 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
                 this->current->next->prev = this->current->prev;
                 this->current->prev->next = this->current->next;
                 this->current = this->current->prev;
-                delete this->current;
+                exterminate = this->current;
+                delete exterminate;
                 this->nrOfItems--;
                 flag = true;
             }
@@ -145,24 +158,29 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
 
             }
         } while ( this->current->prev != nullptr);
+        this->current = rememberCurrent;
+        // search upwards also linear time.
         do
         {
             if(this->current->data == item)
             {
+                exterminate = this->current;
                 this->current->next->prev = this->current->prev;
                 this->current->prev->next = this->current->next;
-                this->current = this->current->prev;
-                delete this->current;
+                this->current = this->current->prev; //efterföljare till current?
+                delete exterminate;
                 this->nrOfItems--;
                 flag = true;
             }
             else
-                this->;
-        }while ( this->current->prev != nullptr);
+            if(this->current->next != nullptr)
+                this->current = this->current->next;
+        }while ( this->current->next != nullptr);
     }
     this->current = rememberCurrent;
     return flag;
 }
+
 
 template <class T>
 // o Returnerar antalet element som finns i listan.
@@ -171,18 +189,19 @@ int CircularDoubleDirectedList<T>::size() const
     return this->nrOfItems;
 }
 
+
 template <class T>
 /*
  * o Om listan är tom kastas strängen ” Exception: call of currentItem on empty list”
      som undantag.
    o Returnerar det element som är aktuellt (som finns i den nod som current pekar
      på).
- */
-T &CircularDoubleDirectedList<T>::currentItem()
+ */ //description
+T &CircularDoubleDirectedList<T>::currentItem() throw(std::string)
 {
     if(this->nrOfItems == 0)
     {
-        throw std::string("Exception: call of remove on empty list");
+        throw std::string("Exception: call of currentItem on empty list");
     }
     else
     {
@@ -190,6 +209,8 @@ T &CircularDoubleDirectedList<T>::currentItem()
     }
 
 }
+
+
 template <class T>
 // o Ändrar riktningen för listan
 void CircularDoubleDirectedList<T>::changeDirection()
@@ -199,13 +220,17 @@ void CircularDoubleDirectedList<T>::changeDirection()
     else
         this->currentDirection = NEXT;
 }
+
+
 template <class T>
 /*
  * o Om listan är tom kastas strängen ” Exception: call of move on empty list” som
      undantag.
    o Ändrar current till ”nästa” nod enligt den riktning som ges av
      currentDirection.
- */
+ */  //description
+
+
 void CircularDoubleDirectedList<T>::move() throw(std::string)
 {
     if(this->nrOfItems == 0)
@@ -234,5 +259,7 @@ void CircularDoubleDirectedList<T>::move() throw(std::string)
         }
     }
 }
+
+
 /////////////////////////////////////////////////////////////
 #endif //DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
