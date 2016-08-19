@@ -104,6 +104,7 @@ template <class T>
   o En ny nod skapas för item vilken placeras efter aktuell nod, d.v.s blir efterföljare
     till aktuell nod. Den nya noden ska därefter bli aktuell nod.
  */ //description
+//DBG: works
 void CircularDoubleDirectedList<T>::add(T &item)
 {
     if(this->nrOfItems == 0)
@@ -157,8 +158,57 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
     }
     else
     {
-        //search down. linear time.
-        ;
+        //search linear time.
+        //Better: could sort att then use binary search.
+        for (int i = 0; i < this->size() ; ++i)
+        {
+            if(this->size() > 2)
+            {
+                if( this->current->data == item)
+                {
+                    exterminate = this->current;
+                    this->current->next->prev = this->current->prev;
+                    this->current->prev->next = this->current->next;
+
+                    delete exterminate;
+                    flag = true;
+                }
+                else
+                {
+                    this->move();
+                }
+            }
+            else if(this->size() == 2)
+            {
+                if( this->current->data == item)
+                {
+                    exterminate = this->current;
+                    this->current->next = this->current;
+                    this->current->prev = this->current;
+                    delete exterminate;
+                    this->current = nullptr;
+                    this->nrOfItems--;
+                    flag = true;
+                }
+                else
+                    this->move();
+            }
+            else if(this->size() == 1)
+            {
+                if( this->current->data == item)
+                {
+                    exterminate = this->current;
+                    this->current->next = this->current;
+                    this->current->prev = this->current;
+                    delete exterminate;
+                    this->current = nullptr;
+                    this->nrOfItems--;
+                    flag = true;
+                }
+            }
+
+        }
+
     }
     this->current = rememberCurrent;
     return flag;
@@ -167,6 +217,7 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
 
 template <class T>
 // o Returnerar antalet element som finns i listan.
+//DBG: works
 int CircularDoubleDirectedList<T>::size() const
 {
     return this->nrOfItems;
@@ -180,6 +231,7 @@ template <class T>
    o Returnerar det element som är aktuellt (som finns i den nod som current pekar
      på).
  */ //description
+//DBG: works
 T &CircularDoubleDirectedList<T>::currentItem() throw(std::string)
 {
     if(this->nrOfItems == 0)
@@ -196,6 +248,7 @@ T &CircularDoubleDirectedList<T>::currentItem() throw(std::string)
 
 template <class T>
 // o Ändrar riktningen för listan
+//DBG: works
 void CircularDoubleDirectedList<T>::changeDirection()
 {
     if(this->currentDirection == NEXT)
@@ -213,7 +266,7 @@ template <class T>
      currentDirection.
  */  //description
 
-
+//DBG: works
 void CircularDoubleDirectedList<T>::move() throw(std::string)
 {
     if(this->nrOfItems == 0)
