@@ -14,12 +14,18 @@
 using namespace std;
 int main()
 {
+    int a=2, b=9, c=3, d=8, e=22;
     CircularDoubleDirectedList<int> test;
-    try
-    {test.move();}
-    catch (std::string& tmp)
-    {
-        cout << tmp;
-    }
+    test.add(a);
+    test.add(b);
+    test.add(c);
+    test.add(d);
+    test.add(e);
+    test.changeDirection();
+    test.move();
+    test.move();
+    test.move();
+    test.move();test.move();
+    cout;
     return 0;
 }

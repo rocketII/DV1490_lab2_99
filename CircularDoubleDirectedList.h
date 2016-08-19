@@ -48,7 +48,7 @@ CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDi
     this->current = nullptr;
     if (origin.nrOfItems > 0)
     {
-        /*
+        /*   //dummy code
         this->nrOfItems = origin.nrOfItems;
         this->first = new Node(origin.first->data);
         //alternative 2
@@ -87,6 +87,7 @@ CircularDoubleDirectedList<T>::~CircularDoubleDirectedList()
 template <class T>
 CircularDoubleDirectedList<T> &CircularDoubleDirectedList<T>::operator=(const CircularDoubleDirectedList<T> &origin)
 {
+    //dummy code
     if(this != &origin)
     {
         T test;
@@ -108,14 +109,32 @@ void CircularDoubleDirectedList<T>::add(T &item)
     if(this->nrOfItems == 0)
     {
         this->current = new Node(item);
+        this->current->prev =this->current;
+        this->current->next = this->current;
         this->nrOfItems++;
     }
     else
     {
-        this->current->next = new Node(item); // or this->current->prev = new Node(item);
-        this->current->next->prev = this->current; // or this->current->prev->next = this->current;
-        this->current = this->current->next;  // or this->current = this->current->prev;
-        this->nrOfItems++;
+        if(this->nrOfItems == 1)
+        {
+            // think pearl necklace :)
+            this->current->next = new Node(item);
+            this->current->next->prev = this->current;
+            this->current->prev = this->current->next;
+            this->current->next->next = this->current;
+            this->current = this->current->next;
+            this->nrOfItems++;
+        }
+        else
+        {
+            Node* tmp = this->current->prev;
+            this->current->prev = new Node(item);
+            this->current->prev->prev= tmp;
+            this->current->prev->prev->next = this->current->prev;
+            this->current->prev->next = this->current;
+            this->current = this->current->prev;
+            this->nrOfItems++;
+        }
     }
 }
 
@@ -139,43 +158,7 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
     else
     {
         //search down. linear time.
-        do
-        {
-            if(this->current->data == item)
-            {
-                this->current->next->prev = this->current->prev;
-                this->current->prev->next = this->current->next;
-                this->current = this->current->prev;
-                exterminate = this->current;
-                delete exterminate;
-                this->nrOfItems--;
-                flag = true;
-            }
-            else
-            {
-                if(this->current->prev != nullptr)
-                    this->current = this->current->prev;
-
-            }
-        } while ( this->current->prev != nullptr);
-        this->current = rememberCurrent;
-        // search upwards also linear time.
-        do
-        {
-            if(this->current->data == item)
-            {
-                exterminate = this->current;
-                this->current->next->prev = this->current->prev;
-                this->current->prev->next = this->current->next;
-                this->current = this->current->prev; //efterföljare till current?
-                delete exterminate;
-                this->nrOfItems--;
-                flag = true;
-            }
-            else
-            if(this->current->next != nullptr)
-                this->current = this->current->next;
-        }while ( this->current->next != nullptr);
+        ;
     }
     this->current = rememberCurrent;
     return flag;
