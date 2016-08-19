@@ -48,11 +48,13 @@ CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDi
     this->currentDirection = origin.currentDirection;
     //Deep copy and stuff
     Node* stop = origin.current;
-    Node* tmp ;
+    Node* tmp;
     if (origin.nrOfItems > 2)
     {
+        Node* start;
         tmp = origin.current;
         this->current = new Node(tmp->data);
+        start = this->current;
         tmp = tmp->next;
         this->current->next = new Node(tmp->data);
         tmp = tmp->next;
@@ -67,13 +69,18 @@ CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDi
 
 
         }while (tmp->next != stop);
-        this->current->next = stop;
+        this->current->next = start;
         this->current->next->prev = this->current;
     }
     else if ( this->nrOfItems == 2)
     {
-        this->current = new Node(origin.current->data);
-        this->current->next = new Node(origin.current->data);
+        tmp = origin.current;
+        this->current = new Node(tmp->data);
+        tmp = tmp->next;
+        this->current->next = new Node(tmp->data);
+        this->current->next->prev = this->current;
+        this->current->next->next = this->current;
+        this->current->prev = this->current->next;
         this->current = this->current->next;
     }
     else if ( this->nrOfItems == 1)
@@ -110,7 +117,53 @@ CircularDoubleDirectedList<T> &CircularDoubleDirectedList<T>::operator=(const Ci
     //dummy code
     if(this != &origin)
     {
-        T test;
+        this->nrOfItems = origin.nrOfItems;
+        this->currentDirection = origin.currentDirection;
+        //Deep copy and stuff
+        Node* stop = origin.current;
+        Node* tmp;
+        if (origin.nrOfItems > 2)
+        {
+            Node* start;
+            tmp = origin.current;
+            this->current = new Node(tmp->data);
+            start = this->current;
+            tmp = tmp->next;
+            this->current->next = new Node(tmp->data);
+            tmp = tmp->next;
+            this->current->next->prev = this->current;
+            this->current = this->current->next;
+            do
+            {
+                this->current->next = new Node(tmp->data);
+                tmp = tmp->next;
+                this->current->next->prev = this->current;
+                this->current = this->current->next;
+
+
+            }while (tmp->next != stop);
+            this->current->next = start;
+            this->current->next->prev = this->current;
+        }
+        else if ( this->nrOfItems == 2)
+        {
+            tmp = origin.current;
+            this->current = new Node(tmp->data);
+            tmp = tmp->next;
+            this->current->next = new Node(tmp->data);
+            this->current->next->prev = this->current;
+            this->current->next->next = this->current;
+            this->current->prev = this->current->next;
+            this->current = this->current->next;
+        }
+        else if ( this->nrOfItems == 1)
+        {
+            this->current = new Node(origin.current->data);
+            this->current->next = this->current;
+            this->current->prev = this->current;
+        }
+        else
+            this->current = nullptr;
     }
     return *this;
 }

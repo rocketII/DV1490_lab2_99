@@ -14,26 +14,24 @@
 using namespace std;
 int main()
 {
-    int a=2, b=9, c=3, d=8, e=22;
+    int a=0, b=-9;
     CircularDoubleDirectedList<int> test;
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 5; i++)
     {
         a = i;
         test.add(a);
     }
-    c =77;
+
     CircularDoubleDirectedList<int> test2 = test;
-    e = 2;
-    for (int i = 99; i > -1; i--)
+    cout << "\n a\n";
+    for (int i = 0; i < 5; i++)
     {
         a = i;
         test.remove(a);
     }
-    test2.add(d);
-    d = 7;
-
-    try{ test.remove(d);} catch (string& s) { cout <<endl<< s<<endl; }
-    test.add(d);
+    test2.add(b);
+    //try{ test.remove(d);} catch (string& s) { cout <<endl<< s<<endl; }
+    test.add(b);
     /*test.add(c);
     test.add(d);
     test.add(e);
