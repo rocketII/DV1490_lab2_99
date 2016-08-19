@@ -149,10 +149,9 @@ template <class T>
  */ //description
 bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
 {
-    Node* rememberCurrent = this->current;
     bool flag = false;
     Node* exterminate = nullptr;
-    if(this->nrOfItems < 0)
+    if(this->nrOfItems < 1)
     {
         throw std::string("Exception: call of remove on empty list");
     }
@@ -208,11 +207,8 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
                     flag = true;
                 }
             }
-
         }
-
     }
-    this->current = rememberCurrent;
     return flag;
 }
 

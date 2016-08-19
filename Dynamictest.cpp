@@ -18,14 +18,16 @@ int main()
     CircularDoubleDirectedList<int> test;
     test.add(a);
     test.add(b);
-    test.add(c);
+    test.remove(a);
+    try{ test.remove(d);} catch (string& s) { cout <<endl<< s<<endl; }
+    /*test.add(c);
     test.add(d);
     test.add(e);
     test.changeDirection();
     test.move();
     test.move();
     test.move();
-    test.move();test.move();
+    test.move();test.move();*/
     cout;
     return 0;
 }
