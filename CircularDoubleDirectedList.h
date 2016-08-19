@@ -183,10 +183,12 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
                 if( this->current->data == item)
                 {
                     exterminate = this->current;
+                    this->current = this->current->next;
+                    this->current->next->prev = this->current->next;
+                    this->current->next->next = this->current->next;
+                    delete exterminate;
                     this->current->next = this->current;
                     this->current->prev = this->current;
-                    delete exterminate;
-                    this->current = nullptr;
                     this->nrOfItems--;
                     flag = true;
                 }
