@@ -147,6 +147,7 @@ template <class T>
   o Den nod som innehåller item tas bort. Om den nod som tas bort är den nod som
     är aktuell (current pekar på denna) ska aktuell nod bli efterföljande nod.
  */ //description
+//DBG: works
 bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
 {
     bool flag = false;
@@ -170,6 +171,7 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
                     this->current->prev->next = this->current->next;
                     this->current = this->current->prev ;
                     delete exterminate;
+                    this->nrOfItems--;
                     flag = true;
                 }
                 else
