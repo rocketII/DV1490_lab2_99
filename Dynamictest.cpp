@@ -16,18 +16,22 @@ int main()
 {
     int a=2, b=9, c=3, d=8, e=22;
     CircularDoubleDirectedList<int> test;
-    for (int i = 0; i < 20000; i++)
+    for (int i = 0; i < 100; i++)
     {
         a = i;
         test.add(a);
     }
+    c =77;
+    CircularDoubleDirectedList<int> test2 = test;
     e = 2;
-    for (int i = 19999; i > -1; i--)
+    for (int i = 99; i > -1; i--)
     {
         a = i;
         test.remove(a);
     }
+    test2.add(d);
     d = 7;
+
     try{ test.remove(d);} catch (string& s) { cout <<endl<< s<<endl; }
     test.add(d);
     /*test.add(c);

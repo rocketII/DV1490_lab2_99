@@ -44,26 +44,46 @@ public:
 template <class T>
 CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDirectedList &origin)
 {
-    this->nrOfItems = 0;
-    this->current = nullptr;
-    if (origin.nrOfItems > 0)
+    this->nrOfItems = origin.nrOfItems;
+    this->currentDirection = origin.currentDirection;
+    //Deep copy and stuff
+    Node* stop = origin.current;
+    Node* tmp ;
+    if (origin.nrOfItems > 2)
     {
-        /*   //dummy code
-        this->nrOfItems = origin.nrOfItems;
-        this->first = new Node(origin.first->data);
-        //alternative 2
-        //T theData = orgin.first->data;
-        //Node* aNode=new Node(theData);
-        //this->first=aNode;
-        Node* walker = origin.first;
-        Node* endNodePtr = this->first;
-        for (int i = 0; i < this->nrOfElements-1 ; ++i)
+        tmp = origin.current;
+        this->current = new Node(tmp->data);
+        tmp = tmp->next;
+        this->current->next = new Node(tmp->data);
+        tmp = tmp->next;
+        this->current->next->prev = this->current;
+        this->current = this->current->next;
+        do
         {
-            walker = walker->next;
-            endNodePtr->next= new Node(walker->data);
-            endNodePtr = endNodePtr->next;
-        }*/
+            this->current->next = new Node(tmp->data);
+            tmp = tmp->next;
+            this->current->next->prev = this->current;
+            this->current = this->current->next;
+
+
+        }while (tmp->next != stop);
+        this->current->next = stop;
+        this->current->next->prev = this->current;
     }
+    else if ( this->nrOfItems == 2)
+    {
+        this->current = new Node(origin.current->data);
+        this->current->next = new Node(origin.current->data);
+        this->current = this->current->next;
+    }
+    else if ( this->nrOfItems == 1)
+    {
+        this->current = new Node(origin.current->data);
+        this->current->next = this->current;
+        this->current->prev = this->current;
+    }
+    else
+        this->current = nullptr;
 }
 
 
