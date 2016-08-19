@@ -169,7 +169,7 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
                     exterminate = this->current;
                     this->current->next->prev = this->current->prev;
                     this->current->prev->next = this->current->next;
-
+                    this->current = this->current->prev ;
                     delete exterminate;
                     flag = true;
                 }
