@@ -1,6 +1,10 @@
 //
 // Created by root on 2016-08-18.
 //
+/*
+ * Bug#     description                                                                                         solved?
+ * 0x00     deepcopy dosen't make identical chain                                                                   0
+ */
 #ifndef DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
 #define DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
 
@@ -42,6 +46,7 @@ public:
 
 
 template <class T>
+
 CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDirectedList &origin)
 {
     this->nrOfItems = origin.nrOfItems;
@@ -99,13 +104,37 @@ CircularDoubleDirectedList<T>::~CircularDoubleDirectedList()
 {
     //kolla om tom.
     //om innehåll förstör alla noder som allokerats.
+    bool flag = false;
     if(this->nrOfItems < 0)
         ;
     else
     {
         for (int i = 0; i < this->nrOfItems ; ++i)
         {
-            ;
+            if(this->nrOfItems > 2)
+            {
+                if (!flag)
+                {
+                    this->current->prev->next = nullptr;
+                    flag =true;
+                }
+                this->current = this->current->next;
+                delete this->current->prev;
+            }
+            else if(this->nrOfItems == 2)
+            {
+                delete this->current->next;
+                this->nrOfItems--;
+                delete this->current;
+                this->nrOfItems--;
+                this->current = nullptr;
+            }
+            else if(this->nrOfItems == 1)
+            {
+                delete this->current;
+                this->nrOfItems--;
+                this->current = nullptr;
+            }
         }
     }
 }
