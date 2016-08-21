@@ -21,7 +21,7 @@ int main()
         a = i;
         test.add(a);
     }
-
+    cout << test.size();
     CircularDoubleDirectedList<int> test2 = test;
     cout << "\n a\n";
     for (int i = 0; i < 2; i++)
@@ -30,6 +30,7 @@ int main()
         test.remove(a);
     }
     test2.add(b);
+    cout << test2.size();
     //try{ test.remove(d);} catch (string& s) { cout <<endl<< s<<endl; }
     test.add(b);
     /*test.add(c);
@@ -43,3 +44,10 @@ int main()
     cout;
     return 0;
 }
+// 1 items  ==  ==11408== All heap blocks were freed -- no leaks are possible
+//   copying works
+// 2 items  ==  ==11408== All heap blocks were freed -- no leaks are possible
+//   copying works
+// >2 items  ==  leaks
+//   copying dosen't works
+

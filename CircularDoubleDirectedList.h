@@ -92,7 +92,7 @@ CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDi
         this->current->next->prev = this->current;
         this->current->next->next = this->current;
         this->current->prev = this->current->next;
-        this->current = this->current->next;
+        //this->current = this->current->next; obsolete
     }
     else if ( origin.nrOfItems == 1)
     {
