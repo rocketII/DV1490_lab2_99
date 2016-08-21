@@ -37,11 +37,16 @@ void stackDemo(void)
         test77.push(slimit);
     }
     cout <<"\n"<< test77.pop()<<"\n";*/
-    for (int i = 0; i < slimit ; ++i)
+    test77.push(slimit);
+    if(test77.isEmpty())
+        cout << "empty";
+    else
+        cout << "not empty!";
+    /*for (int i = 0; i < slimit ; ++i)
     {
         test77.push(i);
         cout << "peek "<<i<<" == "<< test77.peek()<<endl;
-    }
+    }*/
 
 }
 void ListDemo()
