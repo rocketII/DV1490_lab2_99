@@ -62,7 +62,7 @@ int main(int argc, char argv[])
 
 	return 0;
 }
-//DBG : implementing
+//DBG : ready 4 test
 void makeCardDeck(Stack<Card*> &cardDeck)
 {
     //varje kort
@@ -88,15 +88,43 @@ void makeCardDeck(Stack<Card*> &cardDeck)
 
     }
 }
-//DBG : implementing
+//DBG : ready 4 test
 void shuffleCardDeck(Stack<Card*> &cardDeck)
 {
 	// blanda korten i kortleken
 	// Tips! Plocka ut alla kort från kortleken (CardDeck)
 	// och blanda dem för att därefter placera tillbaka korten i kortleken (CardDeck)
-	
+    Card* ptr[52] = {nullptr};
+    int countDown=52;
+    for (int p = 0; p < 52; p++)
+    {
+        ptr[p] = cardDeck.pop();
+    }
+    for (int i = 0; i < 52 ; ++i)
+    {
+        if(ptr[(rand)%52] != nullptr)
+        {
+            cardDeck.push(ptr[(rand)%52]);
+            countDown--;
+        }
+
+    }
+    bool shallContinue = true;
+
+    while (shallContinue)
+    {
+        if(ptr[(rand)%52] != nullptr)
+        {
+            cardDeck.push(ptr[(rand)%52]);
+            countDown--;
+        }
+        if(countDown == 0)
+        {
+            shallContinue = false;
+        }
+    }
 }
-//DBG : implementing
+//DBG : ready 4 test
 void addPlayers(CircularDoubleDirectedList<Player> &players)
 {
 	// låt användaren mata in antalet spelare som ska vara med och
@@ -131,15 +159,18 @@ bool handleCurrentPlayer(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Play
 {
 	bool continuePlay = true;
 	// presentera/skriv ut värdet för korthögen
-
+    cout << "Som of pile"<< cardSum<<endl;
 	// presentera/skriv ut spelarens namn och hand mha toString()
-
+    cout << "Player: "<< players.currentItem().getName()<<endl;
+    cout << "At hand: \n"<< players.currentItem().getHandAsString()<<endl;
 	// låt spelaren mata in numret (1, 2 eller 3) på det kort spelaren ska placera på korthögen (cardPile)
-
+    cout << "enter 1 or 2 or 3"<< endl;
+    int choice = 0;
+    cin >> choice;
 	// ta det kort spelaren anger
-
-	// och ge spelaren ett nytt kort från korteken (cardDeck)
-
+    cardPile.push(players.currentItem().returnCard(choice));
+	// och ge spelaren ett nytt kort från kortleken (cardDeck)
+    players.currentItem().addCard(cardDeck);
 	// placera det kort spelaren lämnat på korthögen och hantera konsekvensen av kortet på korthögen
 
     // förändra värdet för korthögen och ändra eventuellt turordningen för spelarna
@@ -150,17 +181,27 @@ bool handleCurrentPlayer(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Play
 	return continuePlay;
 }
 
-//DBG : implementing
+//DBG : ready 4 test
 void cardsFromPileBackToDeck(Stack<Card*> &cardDeck, Stack<Card*> &cardPile)
 {
 	// ta alla kort från korthögen (cardPile)
 	// och placeras i kortleken (cardDeck)
-
+    for (int i = 0; !cardPile.isEmpty() ; ++i)
+    {
+        cardDeck.push(cardPile.pop());
+    }
 }
 
-//DBG : implementing
+//DBG : ready 4 test
 void returnCardsToDeck(Player& loosingPlayer, Stack<Card*> &cardDeck)
 {
+    Card* holdIt = nullptr;
 	// spelarens kort återlämnas och placeras i korteken
-	
+    int stop = loosingPlayer.getCurrentNrOfCards();
+    for (int i = 0; i < stop ; ++i)
+    {
+        holdIt = loosingPlayer.getCurrentNrOfCards();
+        if(holdIt != nullptr)
+            cardDeck.push(loosingPlayer.returnCard(i));
+    }
 }
