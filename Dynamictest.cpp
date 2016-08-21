@@ -25,7 +25,7 @@ int main()
 }
 void stackDemo(void)
 {
-    int slimit = 3;
+    int slimit = 60;
     Stack<int> test77;
     /*try
     {
@@ -37,10 +37,10 @@ void stackDemo(void)
         test77.push(slimit);
     }
     cout <<"\n"<< test77.pop()<<"\n";*/
-    for (int i = 0; i < (slimit-1) ; ++i)
+    for (int i = 0; i < slimit ; ++i)
     {
         test77.push(i);
-        cout << "peek "<<i<<" "<< test77.peek()<<endl;
+        cout << "peek "<<i<<" == "<< test77.peek()<<endl;
     }
 
 }

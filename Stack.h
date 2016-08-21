@@ -31,12 +31,15 @@ public:
     virtual bool isEmpty() const;
 };
 template <class T>
+//DBG: works
 IStack<T>::~IStack() { }
 template <class T>
+//DBG: works
 Stack<T>::Stack() : nrOfElements(0), ptr(nullptr), top(nullptr)
 {}
 
 template <class T>
+//DBG: works
 Stack<T>::~Stack()
 {
     if(this->nrOfElements > 0)
@@ -54,6 +57,7 @@ Stack<T>::~Stack()
     }
 }
 template <class T>
+//DBG: works
 void Stack<T>::push(const T &element)
 {
     if( this->nrOfElements < 1)
@@ -93,6 +97,7 @@ T Stack<T>::pop() throw(string)
     return result;
 }
 template <class T>
+//DBG: works
 T Stack<T>::peek() const throw(string)
 {
     if(this->nrOfElements < 1)
@@ -103,6 +108,7 @@ T Stack<T>::peek() const throw(string)
         return this->top->data;
 }
 template <class T>
+//DBG: works
 bool Stack<T>::isEmpty() const
 {
     if(this->nrOfElements < 1)
