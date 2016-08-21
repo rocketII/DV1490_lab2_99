@@ -35,6 +35,7 @@ public:
     virtual ~CircularDoubleDirectedList();
     //other
     CircularDoubleDirectedList& operator=(const CircularDoubleDirectedList& origin);
+    bool operator==(const CircularDoubleDirectedList& origin)const;
     //Inherited
     virtual void add(T& item);
     virtual bool remove(T& item) throw(std::string); // requires == operator of item
@@ -423,3 +424,12 @@ void CircularDoubleDirectedList<T>::move() throw(std::string)
 
 /////////////////////////////////////////////////////////////
 #endif //DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
+
+bool CircularDoubleDirectedList::operator==(const CircularDoubleDirectedList &origin) const
+{
+    if(this->current->data == origin.current->data)
+    {
+        return true;
+    }
+    return false;
+}
