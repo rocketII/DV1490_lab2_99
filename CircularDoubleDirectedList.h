@@ -107,16 +107,17 @@ CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDi
 
 
 template <class T>
+//DBG: works
 CircularDoubleDirectedList<T>::~CircularDoubleDirectedList()
 {
     //kolla om tom.
     //om innehåll förstör alla noder som allokerats.
     bool flag = false;
-    if(this->nrOfItems < 0)
+    if(this->nrOfItems < 1)
         ;
     else
     {
-        if(this->nrOfItems > 2) //cause leaks
+        if(this->nrOfItems > 2) //works
         {
             int upperlimit = this->nrOfItems;
             for (int u = 0; u < upperlimit ; u++)
@@ -137,6 +138,7 @@ CircularDoubleDirectedList<T>::~CircularDoubleDirectedList()
                     this->current = this->current->next;
                     delete this->current->prev;
                     delete this->current;
+                    this->nrOfItems-=2;
                 }
 
             }
@@ -149,7 +151,7 @@ CircularDoubleDirectedList<T>::~CircularDoubleDirectedList()
             this->nrOfItems--;
             this->current = nullptr;
         }
-        else if(this->nrOfItems == 1)
+        else if(this->nrOfItems == 1)//works fine
         {
              delete this->current;
              this->nrOfItems--;

@@ -16,7 +16,7 @@ int main()
 {
     int a=0, b=-9;
     CircularDoubleDirectedList<int> test;
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 8999; i++)
     {
         a = i;
         test.add(a);
