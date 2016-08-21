@@ -1,7 +1,8 @@
 //
 // Created by root on 2016-08-18.
 //
-/*
+/*TODO: Q:(till bakre)<-[a]<->[b]<->[c]->(till fronten) där current är på b. ta bort b. flytta till a || c?
+ *A:För ditt exemel så ska current efter borttagning av b peka på c (som var efterföljare till b).
  * Bug#     description                                                                                         solved?
  * 0x00     deepcopy dosen't make identical chain(items>2), one position wrong. missing on element.                 1
  */
