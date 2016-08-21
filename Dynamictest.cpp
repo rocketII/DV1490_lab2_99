@@ -19,12 +19,29 @@ int main()
 {
     stackDemo();
     //ListDemo();
-    cout;
+
     return 0;
 }
 void stackDemo(void)
 {
-    stack<int> test77;
+    int slimit = 1;
+    Stack<int> test77;
+    /*try
+    {
+        test77.peek();
+    }
+    catch (string a)
+    {
+        cout << a<<endl;
+        test77.push(slimit);
+    }
+    cout <<"\n"<< test77.pop()<<"\n";*/
+    for (int i = 0; i < slimit ; ++i)
+    {
+        test77.push(i);
+        cout << "peek "<<i<<" "<< test77.peek();
+    }
+
 }
 void ListDemo()
 {

@@ -15,63 +15,99 @@ private:
     {
     public:
         T data;
-        Node* prev;
-        Node(T data): next(nullptr), data(data) { }
+        Node* next;
+        Node(T data):  next(nullptr), data(data) { }
         ~Node(){};
     };
     int nrOfElements;
 
-    Node* ptr, *current;
+    Node* ptr, *top;
 public:
     Stack();
     ~Stack();
     virtual void push(const T& element);
-    virtual T pop();
-    virtual T peek() const;
+    virtual T pop()throw(string);
+    virtual T peek() const throw(string);
     virtual bool isEmpty() const;
 };
 template <class T>
-Stack::Stack() : nrOfElements(0), ptr(nullptr)
+IStack<T>::~IStack() { }
+template <class T>
+Stack<T>::Stack() : nrOfElements(0), ptr(nullptr), top(nullptr)
 {}
+
 template <class T>
-Stack::~Stack()
+Stack<T>::~Stack()
 {
+    if(this->nrOfElements > 0)
+    {
+        Node* del;
+        while (this->top != this->ptr)
+        {
+            del = this->ptr ;
+            this->ptr = this->ptr->next;
+            delete del;
+        }
+        delete this->top;
+        this->top= nullptr;
+        this->ptr= nullptr;
+    }
+}
+template <class T>
+void Stack<T>::push(const T &element)
+{
+    if( this->nrOfElements < 1)
+    {
+        this->ptr = new Node(element);
+        this->top = this->ptr;
+    }
+    else
+    {
+        this->top->next = new Node(element);
+        this->top = this->top->next;
+    }
+
 
 }
 template <class T>
-void Stack::push(const T &element)
-{
-
-}
-template <class T>
-T Stack::pop() throw(string)
+T Stack<T>::pop() throw(string)
 {
     T result;
-    Node* rm;
+    Node* rm, *walker;
     if(this->nrOfElements < 1)
     {
         throw string("Exception: empty queue");
     }
-    result = this->current->data;
-    rm = this->current;
-    this->current = this->current->prev;
+    walker = this->ptr;
+    for (int i = 0; i < (this->nrOfElements-2) ; ++i)
+    {
+        walker = walker->next;
+    }
+    result = this->top->data;
+    rm = this->top;
+    this->top = walker;
     delete rm;
     return result;
 }
 template <class T>
-T Stack::peek() const throw(string)
+T Stack<T>::peek() const throw(string)
 {
     if(this->nrOfElements < 1)
     {
         throw string("Exception: empty queue");
     }
-    return this->current->data;
+    else
+        return this->top->data;
 }
-
-bool Stack::isEmpty() const
+template <class T>
+bool Stack<T>::isEmpty() const
 {
-
-    return false;
+    if(this->nrOfElements < 1)
+    {
+        return true;
+    }
+    else
+        return false;
 }
 
 #endif //DV1490_LAB2_99_STACK_H_H

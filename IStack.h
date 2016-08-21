@@ -5,7 +5,7 @@ template <typename T>
 class IStack
 {
 	public:
-		virtual ~IStack() = 0 {};
+		virtual ~IStack() = 0;
 		virtual void push(const T& element) = 0;
 		virtual T pop() = 0;
 		virtual T peek() const = 0;
