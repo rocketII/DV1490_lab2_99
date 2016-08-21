@@ -11,8 +11,22 @@
  */
 #include <iostream>
 #include "CircularDoubleDirectedList.h"
+#include "Stack.h"
 using namespace std;
+void ListDemo(void);
+void stackDemo(void);
 int main()
+{
+    stackDemo();
+    //ListDemo();
+    cout;
+    return 0;
+}
+void stackDemo(void)
+{
+    stack<int> test77;
+}
+void ListDemo()
 {
     int limit = 5;
     int a=0, b=-9;
@@ -35,8 +49,6 @@ int main()
     //cout << "test2 size:" <<test2.size();
     //try{ test.remove(d);} catch (string& s) { cout <<endl<< s<<endl; }
     //test.add(b);
-    cout;
-    return 0;
 }
 // 1 items  ==  ==11408== All heap blocks were freed -- no leaks are possible
 //   copying works
