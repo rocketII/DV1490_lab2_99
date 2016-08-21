@@ -41,7 +41,8 @@ int main()
 {
 	int values[] = { 10, 20, 30, 40, 50, 60, 70 };
 	int oddNrs[] = { 1, 3, 5, 7, 9 };
-	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//valgrind
+	//_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	CircularDoubleDirectedList<int> aList;
 	CircularDoubleDirectedList<int> bList = aList; 
 	string dummy;

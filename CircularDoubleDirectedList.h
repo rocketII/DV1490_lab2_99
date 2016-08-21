@@ -14,7 +14,7 @@
 #include "ICircularDoubleDirectedList.h"
 
 template <class T>
-class CircularDoubleDirectedList : ICircularDoubleDirectedList<T>
+class CircularDoubleDirectedList : public ICircularDoubleDirectedList<T>
 {
 private:
     class Node

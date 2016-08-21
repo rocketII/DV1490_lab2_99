@@ -7,8 +7,8 @@ using namespace std;
 class Card
 {
 private:
-	int value; // v‰rde
-	string suit; // f‰rg
+	int value; // v√§rde
+	string suit; // f√§rg
 	string name; // exempelvis ess, dam, 2
 public:
 	Card();

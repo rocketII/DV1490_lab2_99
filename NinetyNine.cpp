@@ -62,61 +62,105 @@ int main(int argc, char argv[])
 
 	return 0;
 }
-
+//DBG : implementing
 void makeCardDeck(Stack<Card*> &cardDeck)
 {
+    //varje kort
 	string suits[] = { "Harts", "Spades", "Diamonds", "Clubs" };
 	string names[] = { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Knight", "Queen", "King" };
 	int values[] = { 1, 2, 3, 4, 5, 6, 7, 0, 0, -10, 99, 10, 10 };
+//
+	// skapa korten för kortleken (cardDeck) genom att använda fälten/arrayerna suits, names, values
+    /*
+      dam och kung ökar värdet på korthögen med 10
+      knekt sätter korthögens värde till 99
+      10 minskar korthögens värde med 10
+      9 bibehåller korthögens värde men vänder håll på turordningen för spelarna
+      8 bibehåller korthögensvärde
+      ess ökar korthögens värde med 1
+      övriga kort ökar korthögens värde kortets värde (ex-vis en 5:a ökar korthögens värde med 5)*/
+    for (int i = 0; i < 52 ; ++i)
+    {
+        cardDeck.push(Card(suits[0],values[i % 13],names[i % 13]));
+        cardDeck.push(Card(suits[1],values[i % 13],names[i % 13]));
+        cardDeck.push(Card(suits[2],values[i % 13],names[i % 13]));
+        cardDeck.push(Card(suits[3],values[i % 13],names[i % 13]));
 
-	// skapa korten f�r kortleken (cardDeck) genom att anv�nda f�lten/arrayerna suits, names, values
-	
+    }
 }
-
+//DBG : implementing
 void shuffleCardDeck(Stack<Card*> &cardDeck)
 {
 	// blanda korten i kortleken
-	// Tips! Plocka ut alla kort fr�n kortleken (CardDeck) 
-	// och blanda dem f�r att d�refter placera tillbaka korten i kortleken (CardDeck)
+	// Tips! Plocka ut alla kort från kortleken (CardDeck)
+	// och blanda dem för att därefter placera tillbaka korten i kortleken (CardDeck)
 	
 }
-
+//DBG : implementing
 void addPlayers(CircularDoubleDirectedList<Player> &players)
 {
-	// l�t anv�ndaren mata in antalet spelare som ska vara med och
-	// l�s in namnen p� spelarna och placera spelarna i listan (players)
-	
+	// låt användaren mata in antalet spelare som ska vara med och
+	// lös in namnen på spelarna och placera spelarna i listan (players)
+    int playersPc=0;
+    string name;
+	cout << "Number of Pc:s(input integers only)? >>>"<<endl;
+    cin >> playersPc;
+    for (int count =0; count < players; count++)
+    {
+        cout << "\nName: "<<endl;
+        getline(cin, name);
+        players.add(name);
+    }
 }
-
+//DBG : ready 4 test
 void dealCards(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Player> &players)
 {
-	// dela ut 3 kort var fr�n kortleken (cardDeck) till spelarna (players)
+	// dela ut 3 kort var från kortleken (cardDeck) till spelarna (players)
+    for (int i = 0; i < 3 ; ++i)
+    {
+        Player* currentPC = players.currentItem();
+        currentPC->addCard(cardDeck.pop());
+        currentPC->addCard(cardDeck.pop());
+        currentPC->addCard(cardDeck.pop());
+        players.move();
+    }
 
 }
-
+//DBG : implementing
 bool handleCurrentPlayer(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Player> &players, int &cardSum, Stack<Card*> &cardPile)
 {
 	bool continuePlay = true;
-	// presentera/skriv ut v�rdet f�r korth�gen
+	// presentera/skriv ut värdet för korthögen
+
 	// presentera/skriv ut spelarens namn och hand mha toString()
-	// l�t spelaren mata in numret (1, 2 eller 3) p� det kort spelaren ska placera p� korth�gen (cardPile)
+
+	// låt spelaren mata in numret (1, 2 eller 3) på det kort spelaren ska placera på korthögen (cardPile)
+
 	// ta det kort spelaren anger
-	// och ge spelaren ett nytt kort fr�n korteken (cardDeck)
-	// placera det kort spelaren l�mnat p� korth�gen och hantera konsekvensen av kortet p� korth�gen
-	// f�r�ndra v�rdet f�r korth�gen och �ndra eventuellt turordningen f�r spelarna 
-	// avg�r om spelet ska forts�tta eller ej (beroende p� v�rdet p� korth�gen)
+
+	// och ge spelaren ett nytt kort från korteken (cardDeck)
+
+	// placera det kort spelaren lämnat på korthögen och hantera konsekvensen av kortet på korthögen
+
+    // förändra värdet för korthögen och ändra eventuellt turordningen för spelarna
+
+    // avgör om spelet ska fortsätta eller ej (beroende på värdet på korthögen)
 	// och returnera detta 
 	
 	return continuePlay;
 }
+
+//DBG : implementing
 void cardsFromPileBackToDeck(Stack<Card*> &cardDeck, Stack<Card*> &cardPile)
 {
-	// ta alla kort fr�n korth�gen (cardPile)
+	// ta alla kort från korthögen (cardPile)
 	// och placeras i kortleken (cardDeck)
+
 }
 
+//DBG : implementing
 void returnCardsToDeck(Player& loosingPlayer, Stack<Card*> &cardDeck)
 {
-	// spelarens kort �terl�mnas och placeras i korteken
+	// spelarens kort återlämnas och placeras i korteken
 	
 }
