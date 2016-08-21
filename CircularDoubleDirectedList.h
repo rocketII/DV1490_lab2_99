@@ -3,7 +3,7 @@
 //
 /*
  * Bug#     description                                                                                         solved?
- * 0x00     deepcopy dosen't make identical chain(items>2), one position wrong. missing on element.                 0
+ * 0x00     deepcopy dosen't make identical chain(items>2), one position wrong. missing on element.                 1
  */
 #ifndef DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
 #define DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
@@ -35,7 +35,7 @@ public:
     virtual ~CircularDoubleDirectedList();
     //other
     CircularDoubleDirectedList& operator=(const CircularDoubleDirectedList& origin);
-    bool operator==(const CircularDoubleDirectedList& origin)const;
+    bool operator==(const T& origin);//compare T origin with this node T data.
     //Inherited
     virtual void add(T& item);
     virtual bool remove(T& item) throw(std::string); // requires == operator of item
@@ -47,7 +47,7 @@ public:
 
 
 template <class T>
-
+//DBG: works
 CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDirectedList &origin)
 {
     //this->nrOfItems = origin.nrOfItems;
@@ -69,7 +69,7 @@ CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDi
         tmp = tmp->next;
         this->current->next->prev = this->current;
         this->current = this->current->next;
-        do
+        while (tmp->next != stop)
         {
             this->current->next = new Node(tmp->data);
             this->nrOfItems++;
@@ -78,11 +78,15 @@ CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDi
             this->current = this->current->next;
 
 
-        }while (tmp->next != stop);
-        this->current->next = start;
+        }
+        this->current->next = new Node(tmp->data);
+        this->nrOfItems++;
         this->current->next->prev = this->current;
+        this->current->next->next = start;
+        this->current->next->next->prev = this->current->next;
+        this->current = start;
     }
-    else if ( origin.nrOfItems == 2)
+    else if ( origin.nrOfItems == 2)//works
     {
         tmp = origin.current;
         this->current = new Node(tmp->data);
@@ -93,9 +97,9 @@ CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDi
         this->current->next->prev = this->current;
         this->current->next->next = this->current;
         this->current->prev = this->current->next;
-        //this->current = this->current->next; obsolete
+
     }
-    else if ( origin.nrOfItems == 1)
+    else if ( origin.nrOfItems == 1)//works
     {
         this->current = new Node(origin.current->data);
         this->nrOfItems++;
@@ -163,54 +167,64 @@ CircularDoubleDirectedList<T>::~CircularDoubleDirectedList()
 
 
 template <class T>
-//DBG: bug 0x00
+//DBG: works
 CircularDoubleDirectedList<T> &CircularDoubleDirectedList<T>::operator=(const CircularDoubleDirectedList<T> &origin)
 {
-    //dummy code
+
     if(this != &origin)
     {
-        this->nrOfItems = origin.nrOfItems;
+        this->nrOfItems=0;
         this->currentDirection = origin.currentDirection;
         //Deep copy and stuff
         Node* stop = origin.current;
         Node* tmp;
-        if (origin.nrOfItems > 2)
+        if (origin.nrOfItems > 2)//works
         {
             Node* start;
             tmp = origin.current;
             this->current = new Node(tmp->data);
+            this->nrOfItems++;
             start = this->current;
             tmp = tmp->next;
             this->current->next = new Node(tmp->data);
+            this->nrOfItems++;
             tmp = tmp->next;
             this->current->next->prev = this->current;
             this->current = this->current->next;
-            do
+            while (tmp->next != stop)
             {
                 this->current->next = new Node(tmp->data);
+                this->nrOfItems++;
                 tmp = tmp->next;
                 this->current->next->prev = this->current;
                 this->current = this->current->next;
 
 
-            }while (tmp->next != stop);
-            this->current->next = start;
+            }
+            this->current->next = new Node(tmp->data);
+            this->nrOfItems++;
             this->current->next->prev = this->current;
+            this->current->next->next = start;
+            this->current->next->next->prev = this->current->next;
+            this->current = start;
         }
-        else if ( this->nrOfItems == 2)
+        else if ( origin.nrOfItems == 2)//works
         {
             tmp = origin.current;
             this->current = new Node(tmp->data);
+            this->nrOfItems++;
             tmp = tmp->next;
             this->current->next = new Node(tmp->data);
+            this->nrOfItems++;
             this->current->next->prev = this->current;
             this->current->next->next = this->current;
             this->current->prev = this->current->next;
-            this->current = this->current->next;
+
         }
-        else if ( this->nrOfItems == 1)
+        else if ( origin.nrOfItems == 1)//works
         {
             this->current = new Node(origin.current->data);
+            this->nrOfItems++;
             this->current->next = this->current;
             this->current->prev = this->current;
         }
@@ -289,7 +303,7 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
         {
             if(this->size() > 2)
             {
-                if( this->current->data == item)
+                if( this->operator==(item))
                 {
                     exterminate = this->current;
                     this->current->next->prev = this->current->prev;
@@ -306,7 +320,7 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
             }
             else if(this->size() == 2)
             {
-                if( this->current->data == item)
+                if( this->operator==(item))
                 {
                     exterminate = this->current;
                     this->current = this->current->next;
@@ -323,7 +337,7 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
             }
             else if(this->size() == 1)
             {
-                if( this->current->data == item)
+                if( this->operator==(item))
                 {
                     exterminate = this->current;
                     this->current->next = this->current;
@@ -420,16 +434,17 @@ void CircularDoubleDirectedList<T>::move() throw(std::string)
         }
     }
 }
-
-
-/////////////////////////////////////////////////////////////
-#endif //DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
-
-bool CircularDoubleDirectedList::operator==(const CircularDoubleDirectedList &origin) const
+template <class T>
+//DBG: works
+bool CircularDoubleDirectedList<T>::operator==(const T &origin)
 {
-    if(this->current->data == origin.current->data)
+    if(this->current->data == origin)
     {
         return true;
     }
     return false;
 }
+/////////////////////////////////////////////////////////////
+#endif //DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
+
+
