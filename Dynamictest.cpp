@@ -16,7 +16,7 @@ int main()
 {
     int a=0, b=-9;
     CircularDoubleDirectedList<int> test;
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 2; i++)
     {
         a = i;
         test.add(a);
@@ -24,7 +24,7 @@ int main()
 
     CircularDoubleDirectedList<int> test2 = test;
     cout << "\n a\n";
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 2; i++)
     {
         a = i;
         test.remove(a);

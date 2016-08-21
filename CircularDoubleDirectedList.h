@@ -3,7 +3,7 @@
 //
 /*
  * Bug#     description                                                                                         solved?
- * 0x00     deepcopy dosen't make identical chain                                                                   0
+ * 0x00     deepcopy dosen't make identical chain, missing on element.                                              0
  */
 #ifndef DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
 #define DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
@@ -49,7 +49,8 @@ template <class T>
 
 CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDirectedList &origin)
 {
-    this->nrOfItems = origin.nrOfItems;
+    //this->nrOfItems = origin.nrOfItems;
+    this->nrOfItems=0;
     this->currentDirection = origin.currentDirection;
     //Deep copy and stuff
     Node* stop = origin.current;
@@ -59,15 +60,18 @@ CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDi
         Node* start;
         tmp = origin.current;
         this->current = new Node(tmp->data);
+        this->nrOfItems++;
         start = this->current;
         tmp = tmp->next;
         this->current->next = new Node(tmp->data);
+        this->nrOfItems++;
         tmp = tmp->next;
         this->current->next->prev = this->current;
         this->current = this->current->next;
         do
         {
             this->current->next = new Node(tmp->data);
+            this->nrOfItems++;
             tmp = tmp->next;
             this->current->next->prev = this->current;
             this->current = this->current->next;
@@ -77,20 +81,23 @@ CircularDoubleDirectedList<T>::CircularDoubleDirectedList(const CircularDoubleDi
         this->current->next = start;
         this->current->next->prev = this->current;
     }
-    else if ( this->nrOfItems == 2)
+    else if ( origin.nrOfItems == 2)
     {
         tmp = origin.current;
         this->current = new Node(tmp->data);
+        this->nrOfItems++;
         tmp = tmp->next;
         this->current->next = new Node(tmp->data);
+        this->nrOfItems++;
         this->current->next->prev = this->current;
         this->current->next->next = this->current;
         this->current->prev = this->current->next;
         this->current = this->current->next;
     }
-    else if ( this->nrOfItems == 1)
+    else if ( origin.nrOfItems == 1)
     {
         this->current = new Node(origin.current->data);
+        this->nrOfItems++;
         this->current->next = this->current;
         this->current->prev = this->current;
     }
@@ -120,6 +127,7 @@ CircularDoubleDirectedList<T>::~CircularDoubleDirectedList()
                 }
                 this->current = this->current->next;
                 delete this->current->prev;
+                this->nrOfItems--;
             }
             else if(this->nrOfItems == 2)
             {
@@ -141,6 +149,7 @@ CircularDoubleDirectedList<T>::~CircularDoubleDirectedList()
 
 
 template <class T>
+//DBG: bug 0x00
 CircularDoubleDirectedList<T> &CircularDoubleDirectedList<T>::operator=(const CircularDoubleDirectedList<T> &origin)
 {
     //dummy code
