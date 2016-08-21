@@ -60,11 +60,13 @@ void Stack<T>::push(const T &element)
     {
         this->ptr = new Node(element);
         this->top = this->ptr;
+        this->nrOfElements++;
     }
     else
     {
         this->top->next = new Node(element);
         this->top = this->top->next;
+        this->nrOfElements++;
     }
 
 
@@ -87,6 +89,7 @@ T Stack<T>::pop() throw(string)
     rm = this->top;
     this->top = walker;
     delete rm;
+    this->nrOfElements--;
     return result;
 }
 template <class T>

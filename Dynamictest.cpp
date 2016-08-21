@@ -9,9 +9,10 @@
      till aktuell nod. Den nya noden ska därefter bli aktuell nod.
             ? vad menas med efter aktuell nod ?
  */
-#include <iostream>
+#include <string>
 #include "CircularDoubleDirectedList.h"
 #include "Stack.h"
+#include <iostream>
 using namespace std;
 void ListDemo(void);
 void stackDemo(void);
@@ -24,7 +25,7 @@ int main()
 }
 void stackDemo(void)
 {
-    int slimit = 1;
+    int slimit = 3;
     Stack<int> test77;
     /*try
     {
@@ -36,10 +37,10 @@ void stackDemo(void)
         test77.push(slimit);
     }
     cout <<"\n"<< test77.pop()<<"\n";*/
-    for (int i = 0; i < slimit ; ++i)
+    for (int i = 0; i < (slimit-1) ; ++i)
     {
         test77.push(i);
-        cout << "peek "<<i<<" "<< test77.peek();
+        cout << "peek "<<i<<" "<< test77.peek()<<endl;
     }
 
 }
@@ -67,10 +68,4 @@ void ListDemo()
     //try{ test.remove(d);} catch (string& s) { cout <<endl<< s<<endl; }
     //test.add(b);
 }
-// 1 items  ==  ==11408== All heap blocks were freed -- no leaks are possible
-//   copying works
-// 2 items  ==  ==11408== All heap blocks were freed -- no leaks are possible
-//   copying works
-// >2 items  ==  leaks
-//   copying dosen't works
 
