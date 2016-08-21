@@ -3,7 +3,7 @@
 //
 /*
  * Bug#     description                                                                                         solved?
- * 0x00     deepcopy dosen't make identical chain, missing on element.                                              0
+ * 0x00     deepcopy dosen't make identical chain(items>2), one position wrong. missing on element.                 0
  */
 #ifndef DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
 #define DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
@@ -116,33 +116,44 @@ CircularDoubleDirectedList<T>::~CircularDoubleDirectedList()
         ;
     else
     {
-        for (int i = 0; i < this->nrOfItems ; ++i)
+        if(this->nrOfItems > 2) //cause leaks
         {
-            if(this->nrOfItems > 2)
+            int upperlimit = this->nrOfItems;
+            for (int u = 0; u < upperlimit ; u++)
             {
-                if (!flag)
+                if(this->nrOfItems > 2)
                 {
-                    this->current->prev->next = nullptr;
-                    flag =true;
+                    if (!flag)
+                    {
+                        this->current->prev->next = nullptr;
+                        flag = true;
+                    }
+                    this->current = this->current->next;
+                    delete this->current->prev;
+                    this->nrOfItems--;
                 }
-                this->current = this->current->next;
-                delete this->current->prev;
-                this->nrOfItems--;
+                else if(this->nrOfItems == 2)
+                {
+                    this->current = this->current->next;
+                    delete this->current->prev;
+                    delete this->current;
+                }
+
             }
-            else if(this->nrOfItems == 2)
-            {
-                delete this->current->next;
-                this->nrOfItems--;
-                delete this->current;
-                this->nrOfItems--;
-                this->current = nullptr;
-            }
-            else if(this->nrOfItems == 1)
-            {
-                delete this->current;
-                this->nrOfItems--;
-                this->current = nullptr;
-            }
+        }
+        else if(this->nrOfItems == 2)//works fine
+        {
+            delete this->current->next;
+            this->nrOfItems--;
+            delete this->current;
+            this->nrOfItems--;
+            this->current = nullptr;
+        }
+        else if(this->nrOfItems == 1)
+        {
+             delete this->current;
+             this->nrOfItems--;
+             this->current = nullptr;
         }
     }
 }

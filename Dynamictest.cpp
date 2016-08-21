@@ -16,23 +16,23 @@ int main()
 {
     int a=0, b=-9;
     CircularDoubleDirectedList<int> test;
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 3; i++)
     {
         a = i;
         test.add(a);
     }
-    cout << test.size();
-    CircularDoubleDirectedList<int> test2 = test;
+    cout <<"test size:" <<test.size();
+    //CircularDoubleDirectedList<int> test2 = test;
     cout << "\n a\n";
-    for (int i = 0; i < 2; i++)
+   /* for (int i = 0; i < 1; i++)
     {
         a = i;
         test.remove(a);
-    }
-    test2.add(b);
-    cout << test2.size();
+    }*/
+    //test2.add(b);
+    //cout << "test2 size:" <<test2.size();
     //try{ test.remove(d);} catch (string& s) { cout <<endl<< s<<endl; }
-    test.add(b);
+    //test.add(b);
     /*test.add(c);
     test.add(d);
     test.add(e);
