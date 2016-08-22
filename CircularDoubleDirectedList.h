@@ -39,9 +39,9 @@ public:
     bool operator==(const T& origin);//compare T origin with this node T data.
     //Inherited
     virtual void add(T& item);
-    virtual bool remove(T& item)throw(string); // requires == operator of item
+    virtual bool remove(T& item) throw(string); // requires == operator of item
     virtual int size() const;
-    virtual T& currentItem()throw(string);
+    virtual T& currentItem() throw(string);
     virtual void changeDirection();
     virtual void move()throw(string);
 };
@@ -288,7 +288,7 @@ template <class T>
     är aktuell (current pekar på denna) ska aktuell nod bli efterföljande nod.
  */ //description
 //DBG: works
-bool CircularDoubleDirectedList<T>::remove(T &item)throw(string)
+bool CircularDoubleDirectedList<T>::remove(T &item) throw(string)
 {
     bool flag = false;
     Node* exterminate = nullptr;
@@ -397,14 +397,16 @@ template <class T>
      på).
  */ //description
 //DBG: works
-T &CircularDoubleDirectedList<T>::currentItem()throw(string)
+T &CircularDoubleDirectedList<T>::currentItem() throw(string)
 {
     if(this->nrOfItems == 0)
     {
         throw string("Exception: call of currentItem on empty list");
     }
-    return this->current->data;
-
+    else
+    {
+        return this->current->data;
+    }
 
 }
 
@@ -430,11 +432,11 @@ template <class T>
  */  //description
 
 //DBG: works
-void CircularDoubleDirectedList<T>::move()throw(string)
+void CircularDoubleDirectedList<T>::move() throw(string)
 {
     if(this->nrOfItems == 0)
     {
-        throw string("Exception: call of move on empty list");
+        throw std::string("Exception: call of move on empty list");
     }
     else
     {
