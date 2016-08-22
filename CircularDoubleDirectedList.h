@@ -268,13 +268,21 @@ void CircularDoubleDirectedList<T>::add(T &item)
         }
         else
         {
+            Node* tmp = this->current->next; //always point to first entry in time for objekt.
+            this->current->next = new Node(item);
+            this->current->next->next = tmp;
+            this->current->next->next->prev = this->current->next;
+            this->current->next->prev = this->current;
+            this->current = this->current->next;
+            this->nrOfItems++;
+            /* obsolete candidate
             Node* tmp = this->current->prev;
             this->current->prev = new Node(item);
             this->current->prev->prev= tmp;
             this->current->prev->prev->next = this->current->prev;
             this->current->prev->next = this->current;
-            this->current = this->current->prev;
-            this->nrOfItems++;
+            this->current = this->current->prev;*/
+
         }
     }
 }
@@ -292,31 +300,56 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
 {
     bool flag = false;
     Node* exterminate = nullptr;
+    exterminate = this->current;
     if(this->nrOfItems < 1)
     {
         throw std::string("Exception: call of remove on empty list");
     }
     else
     {
+
         //search linear time.
         //Better: could sort att then use binary search.
         for (int i = 0; i < this->size() ; ++i)
         {
             if(this->size() > 2)
             {
-                if( this->operator==(item))
+                if( (exterminate->data == item) && (this->current != exterminate))
                 {
-                    exterminate = this->current;
-                    this->current->next->prev = this->current->prev;
-                    this->current->prev->next = this->current->next;
-                    this->current = this->current->prev ;
+                    exterminate->next->prev = exterminate->prev;
+                    exterminate->prev->next = exterminate->next;
                     delete exterminate;
+                    exterminate = this->current;
+                    this->nrOfItems--;
+                    flag = true;
+                }
+                else if((exterminate->data == item) && (this->current == exterminate) )
+                {
+                    this->move();
+                    exterminate->next->prev = exterminate->prev;
+                    exterminate->prev->next = exterminate->next;
+                    delete exterminate;
+                    exterminate = this->current;
                     this->nrOfItems--;
                     flag = true;
                 }
                 else
                 {
-                    this->move();
+                    if(this->currentDirection == NEXT)
+                    {
+                        if(exterminate->next != nullptr)
+                        {
+                            exterminate = exterminate->next;
+                        }
+                    }
+                    else
+                    {
+                        if(exterminate->prev != nullptr)
+                        {
+                            exterminate = exterminate->prev;
+                        }
+                    }
+
                 }
             }
             else if(this->size() == 2)

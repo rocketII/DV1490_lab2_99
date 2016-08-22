@@ -17,15 +17,19 @@ void printList(CircularDoubleDirectedList<T>& list)
 template<typename T>
 bool checkList(string expected, CircularDoubleDirectedList<T>& list)
 {
+    //int oddNrs[] = { 1, 3, 5, 7, 9 };
 	stringstream resultStream;
 	string yourresult;
+    bool totResult = false;
 	for (int i = 0; i<list.size(); i++)
 	{
 		resultStream<<list.currentItem() << " ";
 		list.move();
 	}
-	yourresult = resultStream.str();
-	return expected == yourresult;
+    yourresult = resultStream.str();
+    totResult =  (expected == yourresult);
+    cout <<"\n"<< yourresult<<endl;
+	return totResult;
 
 }
 
@@ -47,7 +51,18 @@ int main()
 	CircularDoubleDirectedList<int> bList = aList; 
 	string dummy;
 
-	cout<<"******** Testing copy constructor on empty list ********"<<endl;
+
+
+
+
+
+
+
+
+
+    //works
+
+    cout<<"******** Testing copy constructor on empty list ********"<<endl;
 
 	if (checkList("", aList) && checkList("", bList))
 		cout <<endl << "Check Ok " << endl;
@@ -64,10 +79,15 @@ int main()
 		cout << endl;
 		getline(cin, dummy);
 	}
-	cout<<endl<<"******** Testing copy constructor on list with content ********"<<endl;
+
+
+
+
+    //solve it
+    cout<<endl<<"******** Testing copy constructor on list with content ********"<<endl;
 
 	for (int i=0; i < 5; i++)
-		aList.add(oddNrs[i]);
+		aList.add(oddNrs[i]); //int oddNrs[] = { 1, 3, 5, 7, 9 };
 
 	aList.changeDirection();
 	aList.move();
@@ -88,7 +108,7 @@ int main()
 	for (int i = 0; i < 3; i++)
 		aList.remove(oddNrs[i]);
 	
-	aList.add(values[0]);
+	aList.add(values[0]);  //int values[] = { 10, 20, 30, 40, 50, 60, 70 };
 	for (int i = 2; i < 4; i++)
 		cList.add(values[i]);
 
@@ -113,7 +133,7 @@ int main()
 	CircularDoubleDirectedList<int> dList;
 	CircularDoubleDirectedList<int> eList;
 
-	
+    //works
 	cout<<endl<<"******** Testing assignment operator on empty list ********"<<endl;
 	dList = eList;
 	if (checkList("", dList) && checkList("", eList))
@@ -131,7 +151,7 @@ int main()
 		getline(cin, dummy);
 	}
 
-
+    //works
 	cout<<endl<<"**** Testing assignment operator on list with content assigned empty list****"<<endl;
 
 	eList.add(values[0]);
@@ -153,7 +173,9 @@ int main()
 		cout << endl;
 		getline(cin, dummy);
 	}
-	
+
+
+    //solve it
 	cout<<endl<<"***** Testing assignment operator on empty list assigned list with content *****"<<endl;
 	eList.add(values[0]);
 	eList.add(values[1]);
@@ -194,6 +216,8 @@ int main()
 		cout << endl;
 		getline(cin, dummy);
 	}
+
+    //works
 	cout<<endl<<"***** Testing assignment operator on lists with content *****"<<endl<<endl;
 	
 	eList = dList;
@@ -237,6 +261,10 @@ int main()
 
 		getline(cin, dummy);
 	}
+
+
+
+    //works
 	cout<<endl<<"***** Testing assignment operator on a list assigned itself *****"<<endl;
 	
 	dList.changeDirection();
@@ -256,6 +284,10 @@ int main()
 		getline(cin, dummy);
 	}
 
+
+
+
+    //works
 	cout << endl << "***** Testing explicit call of destructor of list *****" << endl << endl; 
 	
 
