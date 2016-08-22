@@ -128,7 +128,7 @@ void shuffleCardDeck(Stack<Card*> &cardDeck)
             cardDeck.push(ptr[random]);
             countDown--;
         }
-        if(countDown == 0)
+        if(countDown < 1)
         {
             shallContinue = false;
         }
@@ -147,7 +147,8 @@ void addPlayers(CircularDoubleDirectedList<Player> &players)
     {
         cout << "\nName: "<<endl;
         getline(cin, name);
-        players.add(name);
+        Player a(name);
+        players.add(a);
     }
 }
 //DBG : ready 4 test
@@ -169,7 +170,7 @@ bool handleCurrentPlayer(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Play
 {
 	bool continuePlay = true;
 	// presentera/skriv ut värdet för korthögen
-    cout << "Som of pile"<< cardSum<<endl;
+    cout << "Sum of pile"<< cardSum<<endl;
 	// presentera/skriv ut spelarens namn och hand mha toString()
     cout << "Player: "<< players.currentItem().getName()<<endl;
     cout << "At hand: \n"<< players.currentItem().getHandAsString()<<endl;
@@ -190,7 +191,7 @@ bool handleCurrentPlayer(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Play
       8 bibehåller korthögensvärde
       ess ökar korthögens värde med 1
       övriga kort ökar korthögens värde kortets värde (ex-vis en 5:a ökar korthögens värde med 5)*/
-    int values[] = { 1, 2, 3, 4, 5, 6, 7, 0, 0, -10, 99, 10, 10 };
+    //int values[] = { 1, 2, 3, 4, 5, 6, 7, 0, 0, -10, 99, 10, 10 };
     switch(cardPile.peek()->getValue())
     {
         case 1 :
