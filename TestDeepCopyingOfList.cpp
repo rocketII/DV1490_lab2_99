@@ -20,16 +20,13 @@ bool checkList(string expected, CircularDoubleDirectedList<T>& list)
     //int oddNrs[] = { 1, 3, 5, 7, 9 };
 	stringstream resultStream;
 	string yourresult;
-    bool totResult = false;
 	for (int i = 0; i<list.size(); i++)
 	{
 		resultStream<<list.currentItem() << " ";
 		list.move();
 	}
-    yourresult = resultStream.str();
-    totResult =  (expected == yourresult);
-    cout <<"\n"<< yourresult<<endl;
-	return totResult;
+	yourresult = resultStream.str();
+	return expected == yourresult;
 
 }
 
@@ -108,7 +105,7 @@ int main()
 	for (int i = 0; i < 3; i++)
 		aList.remove(oddNrs[i]);
 	
-	aList.add(values[0]);  //int values[] = { 10, 20, 30, 40, 50, 60, 70 };
+	aList.add(values[0]);
 	for (int i = 2; i < 4; i++)
 		cList.add(values[i]);
 

@@ -34,7 +34,7 @@ bool checkList(string expected, CircularDoubleDirectedList<T>& list)
 int main()
 {
 	int values[] = { 10, 20, 30, 40, 50, 60, 70 };
-	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	string dummy;
 	int item= 100;
 	CircularDoubleDirectedList<int> aList;
@@ -92,10 +92,10 @@ int main()
 		aList.remove(item);
 		printList(aList);
 	}
-	catch (char* e)
+	catch (string strI)
 	{
 		cout << endl << "Check Ok " << endl;
-		cout << e << endl;
+		cout << strI << endl;
 	}
 
 	cout << endl << "********** Testing function currentItem on empty list: **********" << endl;
@@ -107,10 +107,10 @@ int main()
 		aList.currentItem();
 		printList(aList);
 	}
-	catch (char* e)
+	catch (string strII)
 	{
 		cout << endl << "Check Ok " << endl;
-		cout << e << endl;
+		cout << strII << endl;
 	}
 
 
@@ -123,9 +123,9 @@ int main()
 		aList.move();
 		printList(aList);
 	}
-	catch (char* e)
+	catch (string strIII)
 	{
-		cout << e << endl;
+		cout << strIII << endl;
 	}
 
 

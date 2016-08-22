@@ -12,7 +12,7 @@
 #include <string>
 #include <stddef.h>
 #include "ICircularDoubleDirectedList.h"
-
+using namespace std;
 template <class T>
 class CircularDoubleDirectedList : public ICircularDoubleDirectedList<T>
 {
@@ -39,11 +39,11 @@ public:
     bool operator==(const T& origin);//compare T origin with this node T data.
     //Inherited
     virtual void add(T& item);
-    virtual bool remove(T& item) throw(std::string); // requires == operator of item
+    virtual bool remove(T& item)throw(string); // requires == operator of item
     virtual int size() const;
-    virtual T& currentItem() throw(std::string);
+    virtual T& currentItem()throw(string);
     virtual void changeDirection();
-    virtual void move()throw(std::string);
+    virtual void move()throw(string);
 };
 
 
@@ -275,14 +275,6 @@ void CircularDoubleDirectedList<T>::add(T &item)
             this->current->next->prev = this->current;
             this->current = this->current->next;
             this->nrOfItems++;
-            /* obsolete candidate
-            Node* tmp = this->current->prev;
-            this->current->prev = new Node(item);
-            this->current->prev->prev= tmp;
-            this->current->prev->prev->next = this->current->prev;
-            this->current->prev->next = this->current;
-            this->current = this->current->prev;*/
-
         }
     }
 }
@@ -296,14 +288,14 @@ template <class T>
     är aktuell (current pekar på denna) ska aktuell nod bli efterföljande nod.
  */ //description
 //DBG: works
-bool CircularDoubleDirectedList<T>::remove(T &item) throw(std::string)
+bool CircularDoubleDirectedList<T>::remove(T &item)throw(string)
 {
     bool flag = false;
     Node* exterminate = nullptr;
     exterminate = this->current;
     if(this->nrOfItems < 1)
     {
-        throw std::string("Exception: call of remove on empty list");
+        throw string("Exception: call of remove on empty list");
     }
     else
     {
@@ -405,16 +397,14 @@ template <class T>
      på).
  */ //description
 //DBG: works
-T &CircularDoubleDirectedList<T>::currentItem() throw(std::string)
+T &CircularDoubleDirectedList<T>::currentItem()throw(string)
 {
     if(this->nrOfItems == 0)
     {
-        throw std::string("Exception: call of currentItem on empty list");
+        throw string("Exception: call of currentItem on empty list");
     }
-    else
-    {
-        return this->current->data;
-    }
+    return this->current->data;
+
 
 }
 
@@ -440,11 +430,11 @@ template <class T>
  */  //description
 
 //DBG: works
-void CircularDoubleDirectedList<T>::move() throw(std::string)
+void CircularDoubleDirectedList<T>::move()throw(string)
 {
     if(this->nrOfItems == 0)
     {
-        throw std::string("Exception: call of move on empty list");
+        throw string("Exception: call of move on empty list");
     }
     else
     {
