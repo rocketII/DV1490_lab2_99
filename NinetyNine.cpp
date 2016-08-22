@@ -89,7 +89,10 @@ void makeCardDeck(Stack<Card*> &cardDeck)
         cardDeck.push(bPtr);
         cardDeck.push(cPtr);
         cardDeck.push(dPtr);
-
+        cout << "suit : "<<a.getSuit()<<" name: "<<a.getName()<<endl;
+        cout << "suit : "<<b.getSuit()<<" name: "<<b.getName()<<endl;
+        cout << "suit : "<<c.getSuit()<<" name: "<<c.getName()<<endl;
+        cout << "suit : "<<d.getSuit()<<" name: "<<d.getName()<<endl;
     }
 }
 //DBG : ready 4 test
