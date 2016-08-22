@@ -103,15 +103,17 @@ void shuffleCardDeck(Stack<Card*> &cardDeck)
 	// och blanda dem för att därefter placera tillbaka korten i kortleken (CardDeck)
     Card* ptr[52] = {nullptr};
     int countDown=52;
+    int random = rand()% 52;
     for (int p = 0; p < 52; p++)
     {
         ptr[p] = cardDeck.pop();
     }
     for (int i = 0; i < 52 ; ++i)
     {
-        if(ptr[(((int)rand) % 52)] != nullptr)
+        random = rand()% 52;
+        if(ptr[random] != nullptr)
         {
-            cardDeck.push(ptr[((int)rand)%52]);
+            cardDeck.push(ptr[random]);
             countDown--;
         }
 
@@ -120,9 +122,10 @@ void shuffleCardDeck(Stack<Card*> &cardDeck)
 
     while (shallContinue)
     {
-        if(ptr[((int)rand)%52] != nullptr)
+        random = rand()% 52;
+        if(ptr[random] != nullptr)
         {
-            cardDeck.push(ptr[((int)rand)%52]);
+            cardDeck.push(ptr[random]);
             countDown--;
         }
         if(countDown == 0)
@@ -161,7 +164,7 @@ void dealCards(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Player> &playe
     }
 
 }
-//DBG : implementing
+//DBG : ready 4 test
 bool handleCurrentPlayer(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Player> &players, int &cardSum, Stack<Card*> &cardPile)
 {
 	bool continuePlay = true;
