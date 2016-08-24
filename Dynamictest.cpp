@@ -2,51 +2,77 @@
 // Created by root on 2016-08-18.
 // Test anything goes
 //
-/*
- * Frågor:
- * add()
- * o En ny nod skapas för item vilken placeras efter aktuell nod, d.v.s blir efterföljare
-     till aktuell nod. Den nya noden ska därefter bli aktuell nod.
-            ? vad menas med efter aktuell nod ?
- */
+
 #include <string>
 #include "CircularDoubleDirectedList.h"
 #include "Stack.h"
+#include "Card.h"
 #include <iostream>
 using namespace std;
 void ListDemo(void);
-void stackDemo(void);
+void stackDemo();
 int main()
 {
-    stackDemo();
+    Card* ptr[8];
+    Card* hold;
+    Stack<Card*> test77;
+    Card a("Hjärter",1,"Ess");
+    test77.push(&a);
+    Card b("Spader",1,"Ess");
+    test77.push(&b);
+    Card c("Ruter",1,"Ess");
+    test77.push(&c);
+    Card d("Klöver",1,"Ess");
+    test77.push(&d);
+    Card aa("Hjärter",2,"2");
+    test77.push(&aa);
+    Card bb("Spader",2,"2");
+    test77.push(&bb);
+    Card cc("Ruter",2,"2");
+    test77.push(&cc);
+    Card dd("Klöver",2,"2");
+    test77.push(&dd);
+    cout << "\n-------------------"<<endl;
+    ptr[0] = test77.peek();
+    test77.pop();
+    ptr[1] = test77.peek();
+    test77.pop();
+    ptr[2] = test77.peek();
+    test77.pop();
+    ptr[3] = test77.peek();
+    test77.pop();
+    ptr[4] = test77.peek();
+    test77.pop();
+    ptr[5] = test77.peek();
+    test77.pop();
+    ptr[6] = test77.peek();
+    test77.pop();
+    ptr[7] = test77.peek();
+    test77.pop();
+    cout << ptr[0]->toString()<<" value: "<< ptr[0]->getValue()<< endl;
+    cout << ptr[1]->toString()<<" value: "<< ptr[1]->getValue()<< endl;
+    cout << ptr[2]->toString()<<" value: "<< ptr[2]->getValue()<< endl;
+    cout << ptr[3]->toString()<<" value: "<< ptr[3]->getValue()<< endl;
+    cout << ptr[4]->toString()<<" value: "<< ptr[4]->getValue()<< endl;
+    cout << ptr[5]->toString()<<" value: "<< ptr[5]->getValue()<< endl;
+    cout << ptr[6]->toString()<<" value: "<< ptr[6]->getValue()<< endl;
+    cout << ptr[7]->toString()<<" value: "<< ptr[7]->getValue()<< endl;
+    test77.push(ptr[7]);
+    test77.push(ptr[6]);
+    test77.push(ptr[5]);
+    test77.push(ptr[4]);
+    test77.push(ptr[3]);
+    test77.push(ptr[2]);
+    test77.push(ptr[1]);
+    test77.push(ptr[0]);
     //ListDemo();
 
     return 0;
 }
-void stackDemo(void)
+void stackDemo()
 {
-    int slimit = 60;
-    Stack<int> test77;
-    /*try
-    {
-        test77.peek();
-    }
-    catch (string a)
-    {
-        cout << a<<endl;
-        test77.push(slimit);
-    }
-    cout <<"\n"<< test77.pop()<<"\n";*/
-    test77.push(slimit);
-    if(test77.isEmpty())
-        cout << "empty";
-    else
-        cout << "not empty!";
-    /*for (int i = 0; i < slimit ; ++i)
-    {
-        test77.push(i);
-        cout << "peek "<<i<<" == "<< test77.peek()<<endl;
-    }*/
+
+
 
 }
 void ListDemo()

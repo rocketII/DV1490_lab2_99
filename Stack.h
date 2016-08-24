@@ -16,7 +16,7 @@ private:
     public:
         T data;
         Node* next;
-        Node(T data):  next(nullptr), data(data) { }
+        Node(T data):  next(nullptr), data(data) { }//copies data
         ~Node(){};
     };
     int nrOfElements;
@@ -25,11 +25,40 @@ private:
 public:
     Stack();
     ~Stack();
+    Stack(const Stack& origin ); //never used in 99.cpp
+    //Stack& operator=(const Stack& origin);  never used in 99.cpp
     virtual void push(const T& element);
     virtual T pop()throw(string);
     virtual T peek() const throw(string);
     virtual bool isEmpty() const;
 };
+template <class T>
+Stack<T>::Stack(const Stack& origin)
+{
+    this->nrOfElements = origin.nrOfElements;
+    if(this->nrOfElements > 0)
+    {
+        this-> top = nullptr;
+        Node* walker = origin.ptr;
+        this->ptr = new Node(walker);
+        this->top = this->ptr;
+        if(walker->next != nullptr)
+        {
+            walker = walker->next;
+        }
+
+        while ( this->top->data != origin.top->data)
+        {
+
+            this->top->next= new Node(walker);
+            this->top = this->top->next;
+            if(walker->next != nullptr)
+            {
+                walker = walker->next;
+            }
+        }
+    }
+}
 template <class T>
 //DBG: works
 IStack<T>::~IStack() { }
@@ -62,8 +91,8 @@ void Stack<T>::push(const T &element)
 {
     if( this->nrOfElements < 1)
     {
-        this->ptr = new Node(element);
-        this->top = this->ptr;
+        this->top = new Node(element);
+        this->ptr = this->top;
         this->nrOfElements++;
     }
     else
@@ -120,3 +149,5 @@ bool Stack<T>::isEmpty() const
 }
 
 #endif //DV1490_LAB2_99_STACK_H_H
+
+

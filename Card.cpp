@@ -1,5 +1,6 @@
 #include "Card.h"
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -38,5 +39,7 @@ string Card::getName() const
 
 string Card::toString() const
 {
-	return this->suit+ " "+ this->name;
+	stringstream ss;
+    ss << this->suit << " "<< this->name;
+	return ss.str();
 }

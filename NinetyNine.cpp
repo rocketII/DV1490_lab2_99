@@ -17,17 +17,17 @@ void dealCards(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Player> &playe
 bool handleCurrentPlayer(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Player> &players, int &cardSum, Stack<Card*> &cardPile);
 void cardsFromPileBackToDeck(Stack<Card*> &cardDeck, Stack<Card*> &cardPile);
 void returnCardsToDeck(Player& loosingPlayer, Stack<Card*> &cardDeck);
-
+// ready 4 testing
 int main(int argc, char** argv)
 {
+    //maximum ** players
 	srand((unsigned)time(NULL));
 	string dummy;
 	string playerName;
 	int cardSum = 0;
 	Stack<Card*> cardDeck;
 	Stack<Card*> cardPile;
-
-	makeCardDeck(cardDeck);
+	makeCardDeck(cardDeck); //works
 	shuffleCardDeck(cardDeck);
 
 	CircularDoubleDirectedList<Player> players;
@@ -62,38 +62,47 @@ int main(int argc, char** argv)
 
 	return 0;
 }
-//DBG : working
+//DBG : tested, stack dosen't seem to work here, card values gets modified. Using CLion as for DBG.
 void makeCardDeck(Stack<Card*> &cardDeck)
 {
     //varje kort
-	string suits[] = { "Harts", "Spades", "Diamonds", "Clubs" };
-	string names[] = { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Knight", "Queen", "King" };
+	//string suits[] = { "Harts", "Spades", "Diamonds", "Clubs" };
+    string suits[] = { "Hjärter", "Spader", "Ruter", "Klöver" };
+	//string names[] = { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Knight", "Queen", "King" };
+    string names[] = { "Ess", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Knekt", "Drottning", "Kung" };
 	int values[] = { 1, 2, 3, 4, 5, 6, 7, 0, 0, -10, 99, 10, 10 };
-//
+
 	// skapa korten för kortleken (cardDeck) genom att använda fälten/arrayerna suits, names, values
-    /*
-      dam och kung ökar värdet på korthögen med 10
-      knekt sätter korthögens värde till 99
-      10 minskar korthögens värde med 10
-      9 bibehåller korthögens värde men vänder håll på turordningen för spelarna
-      8 bibehåller korthögensvärde
-      ess ökar korthögens värde med 1
-      övriga kort ökar korthögens värde kortets värde (ex-vis en 5:a ökar korthögens värde med 5)*/
+
+    Card* a= nullptr, *b= nullptr, *c= nullptr, *d= nullptr;
     for (int i = 0; i < 13 ; ++i)
     {
-        Card a(suits[0],values[i ],names[i]); Card* aPtr = &a;
-        Card b(suits[1],values[i ],names[i]); Card* bPtr = &b;
-        Card c(suits[2],values[i ],names[i]); Card* cPtr = &c;
-        Card d(suits[3],values[i ],names[i]); Card* dPtr = &d;
-        cardDeck.push(aPtr);
-        cardDeck.push(bPtr);
-        cardDeck.push(cPtr);
-        cardDeck.push(dPtr);
-        cout << "suit : "<<a.getSuit()<<" name: "<<a.getName()<<endl;
-        cout << "suit : "<<b.getSuit()<<" name: "<<b.getName()<<endl;
-        cout << "suit : "<<c.getSuit()<<" name: "<<c.getName()<<endl;
-        cout << "suit : "<<d.getSuit()<<" name: "<<d.getName()<<endl;
+        a = new Card(suits[0],values[i],names[i]);
+        b = new Card(suits[1],values[i],names[i]);
+        c = new Card(suits[2],values[i],names[i]);
+        d = new Card(suits[3],values[i],names[i]);
+        //DBG only
+        cout<< a->toString()<<" "<<a->getValue()<<endl;
+        cout<< b->toString()<<" "<<b->getValue()<<endl;
+        cout<< c->toString()<<" "<<c->getValue()<<endl;
+        cout<< d->toString()<<" "<<d->getValue()<<endl;
+        //DBG end
+        cardDeck.push(a); //.
+        cardDeck.push(b);
+        cardDeck.push(c);
+        cardDeck.push(d);
+        delete a;
+        delete b;
+        delete c;
+        delete d;
     }
+    cout << "\n----------------------------------"<<endl;
+    for (int i = 0; i < 52; i++)
+    {
+        cout<< cardDeck.peek()->toString()<<" "<<cardDeck.peek()->getValue()<<endl;
+        cardDeck.pop();
+    }
+
 }
 //DBG : ready 4 test
 void shuffleCardDeck(Stack<Card*> &cardDeck)
@@ -101,34 +110,40 @@ void shuffleCardDeck(Stack<Card*> &cardDeck)
 	// blanda korten i kortleken
 	// Tips! Plocka ut alla kort från kortleken (CardDeck)
 	// och blanda dem för att därefter placera tillbaka korten i kortleken (CardDeck)
-    Card* ptr[52] = {nullptr};
+    Card* ptr[52] ={nullptr};
+    Card* swap = nullptr;
     int countDown=52;
     int random = rand()% 52;
-    for (int p = 0; p < 52; p++)
+    int randomII = ((rand()% 52 + rand()%52)%52);
+    //fill ptr with Card*
+    for (int p = 0; p < 52; p++) // fill a array with card *
     {
         ptr[p] = cardDeck.pop();
-    }
-    for (int i = 0; i < 52 ; ++i)
-    {
-        random = rand()% 52;
-        if(ptr[random] != nullptr)
-        {
-            cardDeck.push(ptr[random]);
-            countDown--;
-        }
+        cout <<"suit: "<< ptr[p]->getSuit()<<" name:"<<ptr[p]->getName()<<" value: "<< ptr[p]->getValue()<< endl;
+    }//end DBG
 
-    }
     bool shallContinue = true;
-
+    Card* holder= nullptr;
+    Card* holderII= nullptr;
     while (shallContinue)
     {
         random = rand()% 52;
-        if(ptr[random] != nullptr)
+        randomII = ((rand()% 52 + rand()%52)%52);
+        if((random != randomII))
         {
-            cardDeck.push(ptr[random]);
+            swap = ptr[random];
+            ptr[random] = ptr[randomII];
+            ptr[randomII] = swap;
+            holder = new Card(*ptr[random]);
+            holderII = new Card(*ptr[randomII]);
+            cardDeck.push(holder);
+            cardDeck.push(holderII);
+            delete holder;
+            delete holderII;
             countDown--;
         }
-        if(countDown < 1)
+
+        if(countDown == 0)
         {
             shallContinue = false;
         }
@@ -143,34 +158,36 @@ void addPlayers(CircularDoubleDirectedList<Player> &players)
     string name;
 	cout << "Number of Pc:s(input integers only)? >>>"<<endl;
     cin >> playersPc;
+    Player* b;
     for (int count =0; count < playersPc; count++)
     {
         cout << "\nName: "<<endl;
         getline(cin, name);
-        Player a(name);
-        players.add(a);
+        b=new Player(name);
+        players.add(*b);
+        delete b;
     }
 }
 //DBG : ready 4 test
 void dealCards(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Player> &players)
 {
 	// dela ut 3 kort var från kortleken (cardDeck) till spelarna (players)
+    Player* currentPC;
     for (int i = 0; i < 3 ; ++i)
     {
-        Player* currentPC = &players.currentItem();
+        currentPC = &players.currentItem();
         currentPC->addCard(cardDeck.pop());
         currentPC->addCard(cardDeck.pop());
         currentPC->addCard(cardDeck.pop());
         players.move();
     }
-
 }
-//DBG : ready 4 test
+//DBG : ready 4 testing
 bool handleCurrentPlayer(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Player> &players, int &cardSum, Stack<Card*> &cardPile)
 {
 	bool continuePlay = true;
 	// presentera/skriv ut värdet för korthögen
-    cout << "Sum of pile"<< cardSum<<endl;
+    cout << "Som of pile"<< cardSum<<endl;
 	// presentera/skriv ut spelarens namn och hand mha toString()
     cout << "Player: "<< players.currentItem().getName()<<endl;
     cout << "At hand: \n"<< players.currentItem().getHandAsString()<<endl;
@@ -191,7 +208,7 @@ bool handleCurrentPlayer(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Play
       8 bibehåller korthögensvärde
       ess ökar korthögens värde med 1
       övriga kort ökar korthögens värde kortets värde (ex-vis en 5:a ökar korthögens värde med 5)*/
-    //int values[] = { 1, 2, 3, 4, 5, 6, 7, 0, 0, -10, 99, 10, 10 };
+    int values[] = { 1, 2, 3, 4, 5, 6, 7, 0, 0, -10, 99, 10, 10 };
     switch(cardPile.peek()->getValue())
     {
         case 1 :
