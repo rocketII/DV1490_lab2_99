@@ -16,7 +16,7 @@ private:
     public:
         T data;
         Node* next;
-        Node(T data):  next(nullptr), data(data) { }//copies data
+        Node(T data):  next(nullptr), data(data) { }
         ~Node(){};
     };
     int nrOfElements;
@@ -25,15 +25,15 @@ private:
 public:
     Stack();
     ~Stack();
-    Stack(const Stack& origin ); //never used in 99.cpp
+    //Stack(const Stack& origin ); //never used in 99.cpp
     //Stack& operator=(const Stack& origin);  never used in 99.cpp
     virtual void push(const T& element);
     virtual T pop()throw(string);
     virtual T peek() const throw(string);
     virtual bool isEmpty() const;
 };
-template <class T>
-Stack<T>::Stack(const Stack& origin)
+//template <class T>
+/*Stack<T>::Stack(const Stack& origin)
 {
     this->nrOfElements = origin.nrOfElements;
     if(this->nrOfElements > 0)
@@ -58,7 +58,7 @@ Stack<T>::Stack(const Stack& origin)
             }
         }
     }
-}
+}*/
 template <class T>
 //DBG: works
 IStack<T>::~IStack() { }

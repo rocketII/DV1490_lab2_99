@@ -74,28 +74,36 @@ void makeCardDeck(Stack<Card*> &cardDeck)
 
 	// skapa korten för kortleken (cardDeck) genom att använda fälten/arrayerna suits, names, values
 
-    Card* a= nullptr, *b= nullptr, *c= nullptr, *d= nullptr;
-    for (int i = 0; i < 13 ; ++i)
+    //Card* a= nullptr, *b= nullptr, *c= nullptr, *d= nullptr;
+    /*       -------------------|| Bug  creating new cards dynamically overrites old entries ||----------------------
+    Card* array[52]={nullptr};
+    for (int i = 0, arrayIndexer=0; i < 13  ; ++i, arrayIndexer += 4)
     {
-        a = new Card(suits[0],values[i],names[i]);
-        b = new Card(suits[1],values[i],names[i]);
-        c = new Card(suits[2],values[i],names[i]);
-        d = new Card(suits[3],values[i],names[i]);
+        array[arrayIndexer] = new Card(suits[0],values[i],names[i]);
+        array[arrayIndexer+1] = new Card(suits[1],values[i],names[i]);
+        array[arrayIndexer+2] = new Card(suits[2],values[i],names[i]);
+        array[arrayIndexer+3] = new Card(suits[3],values[i],names[i]);
         //DBG only
-        cout<< a->toString()<<" "<<a->getValue()<<endl;
-        cout<< b->toString()<<" "<<b->getValue()<<endl;
-        cout<< c->toString()<<" "<<c->getValue()<<endl;
-        cout<< d->toString()<<" "<<d->getValue()<<endl;
+        cout<<"array[arrayIndexer]: adress: "<<array[arrayIndexer]<<" "<< array[arrayIndexer]->toString()<<" "<<array[arrayIndexer]->getValue()<<endl;
+        cout<<"array[arrayIndexer+1]: adress: "<<array[arrayIndexer+1]<<" "<< array[arrayIndexer+1]->toString()<<" "<<array[arrayIndexer+1]->getValue()<<endl;
+        cout<<"array[arrayIndexer+2]: adress: "<<array[arrayIndexer+2]<<" "<< array[arrayIndexer+2]->toString()<<" "<<array[arrayIndexer+2]->getValue()<<endl;
+        cout<<"array[arrayIndexer+3]: adress: "<<array[arrayIndexer+2]<<" "<< array[arrayIndexer+2]->toString()<<" "<<array[arrayIndexer+2]->getValue()<<endl;
+        cout<<"\nNext iteration!-----\a--------------------------------------"<<endl;
         //DBG end
-        cardDeck.push(a); //.
-        cardDeck.push(b);
-        cardDeck.push(c);
-        cardDeck.push(d);
-        delete a;
-        delete b;
-        delete c;
-        delete d;
+        cardDeck.push(array[arrayIndexer]); //.
+        cardDeck.push(array[arrayIndexer+1]); //
+        cardDeck.push(array[arrayIndexer+2]); //
+        cardDeck.push(array[arrayIndexer+3]); //
+        delete array[arrayIndexer];
+        array[arrayIndexer] = nullptr;
+        delete array[arrayIndexer+1];
+        array[arrayIndexer+1] = nullptr;
+        delete array[arrayIndexer+2];
+        array[arrayIndexer+2] = nullptr;
+        delete array[arrayIndexer+3];
+        array[arrayIndexer+3] = nullptr;
     }
+     */
     cout << "\n----------------------------------"<<endl;
     for (int i = 0; i < 52; i++)
     {
