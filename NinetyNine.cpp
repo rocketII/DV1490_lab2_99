@@ -73,8 +73,80 @@ void makeCardDeck(Stack<Card*> &cardDeck)
 	int values[] = { 1, 2, 3, 4, 5, 6, 7, 0, 0, -10, 99, 10, 10 };
 
 	// skapa korten för kortleken (cardDeck) genom att använda fälten/arrayerna suits, names, values
+    //då mitt problem ej är löst har jag en fullösning. Den funkar dock :)
+    Card* array[52]={nullptr};
+    int i = 0, k=0;
+    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
+    i++;
 
-    //Card* a= nullptr, *b= nullptr, *c= nullptr, *d= nullptr;
+    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
+    i++;
+    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
+    i++;
+    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
+    i++;
+    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
+    i++;
+    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
+    i++;
+    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
+    i++;
+    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
+    i++;
+    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
+    i++;
+    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
+    i++;
+    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
+    i++;
+    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
+    i++;
+    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);k=0;
+    i=0;
+    for (int j = 0; j < 52 ; ++j)
+    {
+        cardDeck.push(array[j]);
+    }
+    //Card* a= nullptr, *b= nullptr, *c= nullptr, *d= nullptr; <---old fix which is now obsolete.
     /*       -------------------|| Bug  creating new cards dynamically overrites old entries ||----------------------
     Card* array[52]={nullptr};
     for (int i = 0, arrayIndexer=0; i < 13  ; ++i, arrayIndexer += 4)
@@ -105,12 +177,12 @@ void makeCardDeck(Stack<Card*> &cardDeck)
     }
      */
     cout << "\n----------------------------------"<<endl;
-    for (int i = 0; i < 52; i++)
+    /*for (int i = 0; i < 52; i++)   <--- dbg print.
     {
         cout<< cardDeck.peek()->toString()<<" "<<cardDeck.peek()->getValue()<<endl;
         cardDeck.pop();
     }
-
+    */
 }
 //DBG : ready 4 test
 void shuffleCardDeck(Stack<Card*> &cardDeck)
