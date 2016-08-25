@@ -146,7 +146,7 @@ void shuffleCardDeck(Stack<Card*> &cardDeck)
 	// Blanda korten i kortleken
 	// Tips! Plocka ut alla kort från kortleken (CardDeck)
 	// och blanda dem för att därefter placera tillbaka korten i kortleken (CardDeck)
-    Card** ptr = new Card*[52];
+    Card* ptr[52]={nullptr};
     Card* swap = nullptr;
     int nrOfCardsInDeck=0;
     int p = 0;
@@ -194,8 +194,9 @@ void shuffleCardDeck(Stack<Card*> &cardDeck)
                 cout  <<" address: "<< cardDeck.pop()<<endl;
             }*/
         }
-        delete ptr;
+
     }
+    //delete[] ptr;
 }
 //DBG : works
 void addPlayers(CircularDoubleDirectedList<Player> &players)
