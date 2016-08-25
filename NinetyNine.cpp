@@ -76,12 +76,16 @@ void makeCardDeck(Stack<Card*> &cardDeck)
     //då mitt problem ej är löst har jag en fullösning. Den funkar dock :)
     Card* array[52]={nullptr};
     int i = 0, k=0;
-    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
-    i++;
+    while( k < 52)
+    {
+        array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
+        array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
+        array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
+        array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
+        i++;
+    }
 
+/*
     array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
     array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
     array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
@@ -140,14 +144,20 @@ void makeCardDeck(Stack<Card*> &cardDeck)
     array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
     array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
     array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);k=0;
-    i=0;
+    array[k] =  new Card(suits[3],values[i],names[i%13]);*/
+    k=0;i=0;
+
     for (int j = 0; j < 52 ; ++j)
     {
         cardDeck.push(array[j]);
     }
+    for (int i = 0; i < 52; i++)
+    {
+        cout<< cardDeck.peek()->toString()<<" "<<cardDeck.peek()->getValue()<<endl;
+        cardDeck.pop();
+    }
     //Card* a= nullptr, *b= nullptr, *c= nullptr, *d= nullptr; <---old fix which is now obsolete.
-    /*       -------------------|| Bug  creating new cards dynamically overrites old entries ||----------------------
+    /*       -------------------|| Bug  creating new cards dynamically overrites old entries, new reuse reserved memory ||----------------------
     Card* array[52]={nullptr};
     for (int i = 0, arrayIndexer=0; i < 13  ; ++i, arrayIndexer += 4)
     {
@@ -201,10 +211,10 @@ void shuffleCardDeck(Stack<Card*> &cardDeck)
         ptr[p] = cardDeck.pop();
         cout <<"suit: "<< ptr[p]->getSuit()<<" name:"<<ptr[p]->getName()<<" value: "<< ptr[p]->getValue()<< endl;
     }//end DBG
-
+    cout << "\n------------------------next!!!--------------------------\n";
     bool shallContinue = true;
-    Card* holder= nullptr;
-    Card* holderII= nullptr;
+    //Card* holder= nullptr;
+    //Card* holderII= nullptr;
     while (shallContinue)
     {
         random = rand()% 52;
@@ -214,18 +224,23 @@ void shuffleCardDeck(Stack<Card*> &cardDeck)
             swap = ptr[random];
             ptr[random] = ptr[randomII];
             ptr[randomII] = swap;
-            holder = new Card(*ptr[random]);
-            holderII = new Card(*ptr[randomII]);
-            cardDeck.push(holder);
-            cardDeck.push(holderII);
-            delete holder;
-            delete holderII;
+            //holder = new Card(*ptr[random]
+            //holderII = new Card(*ptr[randomII]);
+            cardDeck.push(ptr[random]);
+            cardDeck.push(ptr[randomII]);
+            //delete holder;
+            //delete holderII;
             countDown--;
         }
 
         if(countDown == 0)
         {
             shallContinue = false;
+            for (int i = 0; i < 52; i++)
+            {
+                cout<<"#"<<i+1<<" "<< cardDeck.peek()->toString()<<" value:"<<cardDeck.peek()->getValue();
+                cout  <<" address: "<< cardDeck.pop()<<endl;
+            }
         }
     }
 }

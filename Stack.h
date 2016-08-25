@@ -21,7 +21,7 @@ private:
     };
     int nrOfElements;
 
-    Node* ptr, *top;
+    Node *ptr, *top;
 public:
     Stack();
     ~Stack();
