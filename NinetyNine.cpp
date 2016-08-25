@@ -49,7 +49,7 @@ int main(int argc, char** argv)
 		std::cout << endl << endl << players.currentItem().getName() << " lost! " << endl << endl << endl;
 
 		getline(cin, dummy);
-		returnCardsToDeck(players.currentItem(), cardDeck);
+        returnCardsToDeck(players.currentItem(), cardDeck);
 
 
 		players.remove(players.currentItem());
@@ -62,7 +62,7 @@ int main(int argc, char** argv)
 
 	return 0;
 }
-//DBG : tested, stack dosen't seem to work here, card values gets modified. Using CLion as for DBG.
+//DBG : works,
 void makeCardDeck(Stack<Card*> &cardDeck)
 {
     //varje kort
@@ -84,78 +84,24 @@ void makeCardDeck(Stack<Card*> &cardDeck)
         array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
         i++;
     }
-
-/*
-    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
-    i++;
-    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
-    i++;
-    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
-    i++;
-    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
-    i++;
-    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
-    i++;
-    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
-    i++;
-    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
-    i++;
-    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
-    i++;
-    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
-    i++;
-    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
-    i++;
-    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);k++;
-    i++;
-    array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[2],values[i],names[i%13]);k++;
-    array[k] =  new Card(suits[3],values[i],names[i%13]);*/
     k=0;i=0;
+
 
     for (int j = 0; j < 52 ; ++j)
     {
         cardDeck.push(array[j]);
     }
+    for (int j = 0; j < 52 ; ++j)
+    {
+        delete array[j];
+    }
+
+   /* DBG ONLY
     for (int i = 0; i < 52; i++)
     {
         cout<< cardDeck.peek()->toString()<<" "<<cardDeck.peek()->getValue()<<endl;
         cardDeck.pop();
-    }
+    } END DBG*/
     //Card* a= nullptr, *b= nullptr, *c= nullptr, *d= nullptr; <---old fix which is now obsolete.
     /*       -------------------|| Bug  creating new cards dynamically overrites old entries, new reuse reserved memory ||----------------------
     Card* array[52]={nullptr};
@@ -186,7 +132,7 @@ void makeCardDeck(Stack<Card*> &cardDeck)
         array[arrayIndexer+3] = nullptr;
     }
      */
-    cout << "\n----------------------------------"<<endl;
+    cout << "\n----------------------------------"<<endl;//while using DBG
     /*for (int i = 0; i < 52; i++)   <--- dbg print.
     {
         cout<< cardDeck.peek()->toString()<<" "<<cardDeck.peek()->getValue()<<endl;
@@ -194,57 +140,64 @@ void makeCardDeck(Stack<Card*> &cardDeck)
     }
     */
 }
-//DBG : ready 4 test
+//DBG : works (old bug yet to be solved)  fix memleak
 void shuffleCardDeck(Stack<Card*> &cardDeck)
 {
-	// blanda korten i kortleken
+	// Blanda korten i kortleken
 	// Tips! Plocka ut alla kort från kortleken (CardDeck)
 	// och blanda dem för att därefter placera tillbaka korten i kortleken (CardDeck)
-    Card* ptr[52] ={nullptr};
+    Card** ptr = new Card*[52];
     Card* swap = nullptr;
-    int countDown=52;
-    int random = rand()% 52;
-    int randomII = ((rand()% 52 + rand()%52)%52);
+    int nrOfCardsInDeck=0;
+    int p = 0;
+
+
     //fill ptr with Card*
-    for (int p = 0; p < 52; p++) // fill a array with card *
+    while(!cardDeck.isEmpty()) // fill a array with card *
     {
         ptr[p] = cardDeck.pop();
-        cout <<"suit: "<< ptr[p]->getSuit()<<" name:"<<ptr[p]->getName()<<" value: "<< ptr[p]->getValue()<< endl;
+        //cout <<"suit: "<< ptr[p]->getSuit()<<" name:"<<ptr[p]->getName()<<" value: "<< ptr[p]->getValue()<< endl;
+        nrOfCardsInDeck++;p++;
     }//end DBG
-    cout << "\n------------------------next!!!--------------------------\n";
+    //second init
+    int countDown=nrOfCardsInDeck;
+    int random = rand()% nrOfCardsInDeck;
+    int randomII = ((rand()% nrOfCardsInDeck + rand()%nrOfCardsInDeck)%nrOfCardsInDeck);
+    //cout << "\n------------------------next!!!--------------------------\n";
     bool shallContinue = true;
-    //Card* holder= nullptr;
-    //Card* holderII= nullptr;
+
+    //shuffle pointers
     while (shallContinue)
     {
-        random = rand()% 52;
-        randomII = ((rand()% 52 + rand()%52)%52);
+        random = rand()% nrOfCardsInDeck;
+        randomII = ((rand()% nrOfCardsInDeck + rand()%nrOfCardsInDeck)%nrOfCardsInDeck);
         if((random != randomII))
         {
             swap = ptr[random];
             ptr[random] = ptr[randomII];
             ptr[randomII] = swap;
-            //holder = new Card(*ptr[random]
-            //holderII = new Card(*ptr[randomII]);
-            cardDeck.push(ptr[random]);
-            cardDeck.push(ptr[randomII]);
-            //delete holder;
-            //delete holderII;
             countDown--;
         }
-
+        //shuffle done push all the pointer
         if(countDown == 0)
         {
             shallContinue = false;
-            for (int i = 0; i < 52; i++)
+            for (int j = 0; j < nrOfCardsInDeck ; ++j)
             {
-                cout<<"#"<<i+1<<" "<< cardDeck.peek()->toString()<<" value:"<<cardDeck.peek()->getValue();
-                cout  <<" address: "<< cardDeck.pop()<<endl;
+                cardDeck.push(ptr[j]);
             }
+            //DBG output
+            /*
+            for (int i = 0; i < nrOfCardsInDeck; i++)
+            {
+                cout<<"#"<<i+1<<" : "<< cardDeck.peek()->toString()<<" value:"<<cardDeck.peek()->getValue();
+                cout  <<" address: "<< cardDeck.pop()<<endl;
+            }*/
         }
+        delete ptr;
     }
 }
-//DBG : ready 4 test
+//DBG : works
 void addPlayers(CircularDoubleDirectedList<Player> &players)
 {
 	// låt användaren mata in antalet spelare som ska vara med och
@@ -256,19 +209,22 @@ void addPlayers(CircularDoubleDirectedList<Player> &players)
     Player* b;
     for (int count =0; count < playersPc; count++)
     {
-        cout << "\nName: "<<endl;
-        getline(cin, name);
+        fflush(stdin);
+        cout << "\nName: "<<'\n';
+        fflush(stdin);
+        cin >> name;
+        fflush(stdin);
         b=new Player(name);
         players.add(*b);
         delete b;
     }
 }
-//DBG : ready 4 test
+//DBG : seems to work fine
 void dealCards(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Player> &players)
 {
 	// dela ut 3 kort var från kortleken (cardDeck) till spelarna (players)
     Player* currentPC;
-    for (int i = 0; i < 3 ; ++i)
+    for (int i = 0; i < players.size() ; ++i)
     {
         currentPC = &players.currentItem();
         currentPC->addCard(cardDeck.pop());
@@ -280,29 +236,24 @@ void dealCards(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Player> &playe
 //DBG : ready 4 testing
 bool handleCurrentPlayer(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Player> &players, int &cardSum, Stack<Card*> &cardPile)
 {
-	bool continuePlay = true;
-	// presentera/skriv ut värdet för korthögen
-    cout << "Som of pile"<< cardSum<<endl;
-	// presentera/skriv ut spelarens namn och hand mha toString()
+    // presentera/skriv ut värdet för korthögen
+    // presentera/skriv ut spelarens namn och hand mha toString()
+    // låt spelaren mata in numret (1, 2 eller 3) på det kort spelaren ska placera på korthögen (cardPile)
+    // ta det kort spelaren anger
+    // och ge spelaren ett nytt kort från kortleken (cardDeck)
+    // placera det kort spelaren lämnat på korthögen och hantera konsekvensen av kortet på korthögen
+    // förändra värdet för korthögen och ändra eventuellt turordningen för spelarna
+    // avgör om spelet ska fortsätta eller ej (beroende på värdet på korthögen)
+    // och returnera detta
+
+    cout << "Sum of pile: "<< cardSum<<endl;
     cout << "Player: "<< players.currentItem().getName()<<endl;
     cout << "At hand: \n"<< players.currentItem().getHandAsString()<<endl;
-	// låt spelaren mata in numret (1, 2 eller 3) på det kort spelaren ska placera på korthögen (cardPile)
     cout << "enter 1 or 2 or 3"<< endl;
     int choice = 0;
     cin >> choice;
-	// ta det kort spelaren anger
+    --choice;
     cardPile.push(players.currentItem().returnCard(choice));
-	// och ge spelaren ett nytt kort från kortleken (cardDeck)
-    players.currentItem().addCard(cardDeck.pop());
-	// placera det kort spelaren lämnat på korthögen och hantera konsekvensen av kortet på korthögen
-    /*
-      dam och kung ökar värdet på korthögen med 10
-      knekt sätter korthögens värde till 99
-      10 minskar korthögens värde med 10
-      9 bibehåller korthögens värde men vänder håll på turordningen för spelarna
-      8 bibehåller korthögensvärde
-      ess ökar korthögens värde med 1
-      övriga kort ökar korthögens värde kortets värde (ex-vis en 5:a ökar korthögens värde med 5)*/
     int values[] = { 1, 2, 3, 4, 5, 6, 7, 0, 0, -10, 99, 10, 10 };
     switch(cardPile.peek()->getValue())
     {
@@ -335,19 +286,27 @@ bool handleCurrentPlayer(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Play
             cardSum -= 10;
             break;
         case 99 :
-            cardSum += 99;
+            cardSum = 99;
             break;
         case 10 :
             cardSum += 10;
             break;
     }
-    // förändra värdet för korthögen och ändra eventuellt turordningen för spelarna
+    if(cardSum > 99)
+        return false;
+    players.currentItem().addCard(cardDeck.pop());
+    /*
+      dam och kung ökar värdet på korthögen med 10
+      knekt sätter korthögens värde till 99
+      10 minskar korthögens värde med 10
+      9 bibehåller korthögens värde men vänder håll på turordningen för spelarna
+      8 bibehåller korthögensvärde
+      ess ökar korthögens värde med 1
+      övriga kort ökar korthögens värde kortets värde (ex-vis en 5:a ökar korthögens värde med 5)*/
 
-    // avgör om spelet ska fortsätta eller ej (beroende på värdet på korthögen)
-	// och returnera detta 
-	if(cardSum > 99)
-        continuePlay= false;
-	return continuePlay;
+    players.move();
+
+	return true;
 }
 
 //DBG : ready 4 test
