@@ -91,16 +91,17 @@ template <class T>
 //DBG: works
 void Stack<T>::push(const T &element)
 {
-    Node* pTr = new Node(element);
+    //Node* pTr = new Node(element);
+    //Node cc(element);
     if( this->nrOfElements < 1)
     {
-        this->top = pTr;
+        this->top = new Node(element);
         this->ptr = this->top;
         this->nrOfElements++;
     }
     else
     {
-        this->top->next = pTr;
+        this->top->next = new Node(element);
         this->top = this->top->next;
         this->nrOfElements++;
     }

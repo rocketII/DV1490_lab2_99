@@ -41,16 +41,13 @@ int main(int argc, char** argv)
 
 		cout << "The number of players are " << players.size() << endl;
 
-
 		cardSum = 0;
 		while (handleCurrentPlayer(cardDeck, players, cardSum, cardPile));
-
 
 		std::cout << endl << endl << players.currentItem().getName() << " lost! " << endl << endl << endl;
 
 		getline(cin, dummy);
         returnCardsToDeck(players.currentItem(), cardDeck);
-
 
 		players.remove(players.currentItem());
 
@@ -59,7 +56,14 @@ int main(int argc, char** argv)
 	}
 
 	cout << endl << endl << "The winner is " << players.currentItem().getName() << endl;
-
+    while (!cardDeck.isEmpty())
+    {
+        delete cardDeck.pop();
+    }
+    while (!cardPile.isEmpty())
+    {
+        delete cardPile.pop();
+    }
 	return 0;
 }
 //DBG : works,
@@ -93,7 +97,7 @@ void makeCardDeck(Stack<Card*> &cardDeck)
     }
     //for (int j = 0; j < 52 ; ++j)
     {
-        //might cause problems with the nodes. better.
+        //might cause problems with the nodes. better do delete Cards later.
         //delete array[j];
     }
 
