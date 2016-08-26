@@ -349,3 +349,115 @@ void returnCardsToDeck(Player& loosingPlayer, Stack<Card*> &cardDeck)
             cardDeck.push(holdIt);
     }
 }
+
+///////Dev comments and details ------------------------------------------------------------------------
+
+/*
+ *   memleak fixed and game working for two players. But krasch with signal 11(sigsegfault) when a player of 3 or more loses .
+ *
+ *   valgrind IO:
+The number of players are 2.
+ Sum of pile: 99
+Player: v
+At hand:
+Card 1: Hjärter Ess
+Card 2: Ruter Ess
+Card 3: Klöver 2
+
+enter 1 or 2 or 3 (or 9 for selfdestruct)
+1
+
+
+v lost!
+
+
+==28883== Invalid read of size 8
+==28883==    at 0x4EF3240: std::string::size() const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==28883==    by 0x403C99: __gnu_cxx::__enable_if<std::__is_char<char>::__value, bool>::__type std::operator==<char>(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (basic_string.h:2514)
+==28883==    by 0x403B44: Player::operator==(Player const&) const (Player.cpp:92)
+==28883==    by 0x4068FD: CircularDoubleDirectedList<Player>::operator==(Player const&) (CircularDoubleDirectedList.h:467)
+==28883==    by 0x405E83: CircularDoubleDirectedList<Player>::remove(Player&) (CircularDoubleDirectedList.h:349)
+==28883==    by 0x403F26: main (NinetyNine.cpp:52)
+==28883==  Address 0x5a060f0 is 32 bytes inside a block of size 64 free'd
+==28883==    at 0x4C2A360: operator delete(void*) (vg_replace_malloc.c:507)
+==28883==    by 0x405DD6: CircularDoubleDirectedList<Player>::remove(Player&) (CircularDoubleDirectedList.h:323)
+==28883==    by 0x403F26: main (NinetyNine.cpp:52)
+==28883==
+==28883== Invalid read of size 8
+==28883==    at 0x4EF3243: std::string::size() const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==28883==    by 0x403C99: __gnu_cxx::__enable_if<std::__is_char<char>::__value, bool>::__type std::operator==<char>(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (basic_string.h:2514)
+==28883==    by 0x403B44: Player::operator==(Player const&) const (Player.cpp:92)
+==28883==    by 0x4068FD: CircularDoubleDirectedList<Player>::operator==(Player const&) (CircularDoubleDirectedList.h:467)
+==28883==    by 0x405E83: CircularDoubleDirectedList<Player>::remove(Player&) (CircularDoubleDirectedList.h:349)
+==28883==    by 0x403F26: main (NinetyNine.cpp:52)
+==28883==  Address 0x5a06000 is 0 bytes inside a block of size 26 free'd
+==28883==    at 0x4C2A360: operator delete(void*) (vg_replace_malloc.c:507)
+==28883==    by 0x403866: Player::~Player() (Player.cpp:34)
+==28883==    by 0x4068D1: CircularDoubleDirectedList<Player>::Node::~Node() (CircularDoubleDirectedList.h:26)
+==28883==    by 0x405DCE: CircularDoubleDirectedList<Player>::remove(Player&) (CircularDoubleDirectedList.h:323)
+==28883==    by 0x403F26: main (NinetyNine.cpp:52)
+==28883==
+==28883== Invalid read of size 8
+==28883==    at 0x4EF3240: std::string::size() const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==28883==    by 0x403CB9: __gnu_cxx::__enable_if<std::__is_char<char>::__value, bool>::__type std::operator==<char>(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /root/.CLion12/system/cmake/generated/7eeba64d/7eeba64d/Debug0/DV1490_lab2_99)
+==28883==    by 0x403B44: Player::operator==(Player const&) const (Player.cpp:92)
+==28883==    by 0x4068FD: CircularDoubleDirectedList<Player>::operator==(Player const&) (CircularDoubleDirectedList.h:467)
+==28883==    by 0x405E83: CircularDoubleDirectedList<Player>::remove(Player&) (CircularDoubleDirectedList.h:349)
+==28883==    by 0x403F26: main (NinetyNine.cpp:52)
+==28883==  Address 0x5a060f0 is 32 bytes inside a block of size 64 free'd
+==28883==    at 0x4C2A360: operator delete(void*) (vg_replace_malloc.c:507)
+==28883==    by 0x405DD6: CircularDoubleDirectedList<Player>::remove(Player&) (CircularDoubleDirectedList.h:323)
+==28883==    by 0x403F26: main (NinetyNine.cpp:52)
+==28883==
+==28883== Invalid read of size 8
+==28883==    at 0x4EF3243: std::string::size() const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==28883==    by 0x403CB9: __gnu_cxx::__enable_if<std::__is_char<char>::__value, bool>::__type std::operator==<char>(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /root/.CLion12/system/cmake/generated/7eeba64d/7eeba64d/Debug0/DV1490_lab2_99)
+==28883==    by 0x403B44: Player::operator==(Player const&) const (Player.cpp:92)
+==28883==    by 0x4068FD: CircularDoubleDirectedList<Player>::operator==(Player const&) (CircularDoubleDirectedList.h:467)
+==28883==    by 0x405E83: CircularDoubleDirectedList<Player>::remove(Player&) (CircularDoubleDirectedList.h:349)
+==28883==    by 0x403F26: main (NinetyNine.cpp:52)
+==28883==  Address 0x5a06000 is 0 bytes inside a block of size 26 free'd
+==28883==    at 0x4C2A360: operator delete(void*) (vg_replace_malloc.c:507)
+==28883==    by 0x403866: Player::~Player() (Player.cpp:34)
+==28883==    by 0x4068D1: CircularDoubleDirectedList<Player>::Node::~Node() (CircularDoubleDirectedList.h:26)
+==28883==    by 0x405DCE: CircularDoubleDirectedList<Player>::remove(Player&) (CircularDoubleDirectedList.h:323)
+==28883==    by 0x403F26: main (NinetyNine.cpp:52)
+==28883==
+==28883== Invalid read of size 8
+==28883==    at 0x4EF33E0: std::string::data() const (in /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.20)
+==28883==    by 0x403CD7: __gnu_cxx::__enable_if<std::__is_char<char>::__value, bool>::__type std::operator==<char>(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /root/.CLion12/system/cmake/generated/7eeba64d/7eeba64d/Debug0/DV1490_lab2_99)
+==28883==    by 0x403B44: Player::operator==(Player const&) const (Player.cpp:92)
+==28883==    by 0x4068FD: CircularDoubleDirectedList<Player>::operator==(Player const&) (CircularDoubleDirectedList.h:467)
+==28883==    by 0x405E83: CircularDoubleDirectedList<Player>::remove(Player&) (CircularDoubleDirectedList.h:349)
+==28883==    by 0x403F26: main (NinetyNine.cpp:52)
+==28883==  Address 0x5a060f0 is 32 bytes inside a block of size 64 free'd
+==28883==    at 0x4C2A360: operator delete(void*) (vg_replace_malloc.c:507)
+==28883==    by 0x405DD6: CircularDoubleDirectedList<Player>::remove(Player&) (CircularDoubleDirectedList.h:323)
+==28883==    by 0x403F26: main (NinetyNine.cpp:52)
+==28883==
+==28883== Invalid read of size 1
+==28883==    at 0x4C2ED29: __memcmp_sse4_1 (vg_replace_strmem.c:972)
+==28883==    by 0x403BF1: std::char_traits<char>::compare(char const*, char const*, unsigned long) (char_traits.h:259)
+==28883==    by 0x403CE5: __gnu_cxx::__enable_if<std::__is_char<char>::__value, bool>::__type std::operator==<char>(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (in /root/.CLion12/system/cmake/generated/7eeba64d/7eeba64d/Debug0/DV1490_lab2_99)
+==28883==    by 0x403B44: Player::operator==(Player const&) const (Player.cpp:92)
+==28883==    by 0x4068FD: CircularDoubleDirectedList<Player>::operator==(Player const&) (CircularDoubleDirectedList.h:467)
+==28883==    by 0x405E83: CircularDoubleDirectedList<Player>::remove(Player&) (CircularDoubleDirectedList.h:349)
+==28883==    by 0x403F26: main (NinetyNine.cpp:52)
+==28883==  Address 0x5a06018 is 24 bytes inside a block of size 26 free'd
+==28883==    at 0x4C2A360: operator delete(void*) (vg_replace_malloc.c:507)
+==28883==    by 0x403866: Player::~Player() (Player.cpp:34)
+==28883==    by 0x4068D1: CircularDoubleDirectedList<Player>::Node::~Node() (CircularDoubleDirectedList.h:26)
+==28883==    by 0x405DCE: CircularDoubleDirectedList<Player>::remove(Player&) (CircularDoubleDirectedList.h:323)
+==28883==    by 0x403F26: main (NinetyNine.cpp:52)
+==28883==
+The number of players are 2
+Sum of pile: 0
+Player: q
+At hand:
+Card 1: Klöver 10
+Card 2: Hjärter Kung
+Card 3: Klöver Ess
+
+enter 1 or 2 or 3 (or 9 for selfdestruct)
+
+ */
