@@ -93,7 +93,7 @@ void makeCardDeck(Stack<Card*> &cardDeck)
     }
     for (int j = 0; j < 52 ; ++j)
     {
-        delete array[j];
+        //delete array[j];
     }
 
    /* DBG ONLY
@@ -146,7 +146,7 @@ void shuffleCardDeck(Stack<Card*> &cardDeck)
 	// Blanda korten i kortleken
 	// Tips! Plocka ut alla kort från kortleken (CardDeck)
 	// och blanda dem för att därefter placera tillbaka korten i kortleken (CardDeck)
-    Card* ptr[52]={nullptr};
+    Card** ptr=new Card*[52];
     Card* swap = nullptr;
     int nrOfCardsInDeck=0;
     int p = 0;
@@ -196,7 +196,11 @@ void shuffleCardDeck(Stack<Card*> &cardDeck)
         }
 
     }
-    //delete[] ptr;
+    for (int i = 0; i < nrOfCardsInDeck ; ++i)
+    {
+        delete ptr[i];
+    }
+    delete[] ptr;
 }
 //DBG : works
 void addPlayers(CircularDoubleDirectedList<Player> &players)
