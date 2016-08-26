@@ -20,7 +20,6 @@ void returnCardsToDeck(Player& loosingPlayer, Stack<Card*> &cardDeck);
 // ready 4 testing
 int main(int argc, char** argv)
 {
-    //maximum ** players
 	srand((unsigned)time(NULL));
 	string dummy;
 	string playerName;
@@ -56,6 +55,7 @@ int main(int argc, char** argv)
 	}
 
 	cout << endl << endl << "The winner is " << players.currentItem().getName() << endl;
+    //fix leaftover allocations.
     while (!cardDeck.isEmpty())
     {
         delete cardDeck.pop();
@@ -78,9 +78,9 @@ void makeCardDeck(Stack<Card*> &cardDeck)
 
 	// skapa korten för kortleken (cardDeck) genom att använda fälten/arrayerna suits, names, values
     //då mitt problem ej är löst har jag en fullösning. Den funkar dock :)
-    Card* array[52]={nullptr};
+    Card* array[SIZE]={nullptr};
     int i = 0, k=0;
-    while( k < 52)
+    while( k < SIZE)
     {
         array[k] =  new Card(suits[0],values[i],names[i%13]);k++;
         array[k] =  new Card(suits[1],values[i],names[i%13]);k++;
@@ -91,18 +91,18 @@ void makeCardDeck(Stack<Card*> &cardDeck)
     k=0;i=0;
 
 
-    for (int j = 0; j < 52 ; ++j)
+    for (int j = 0; j < SIZE ; ++j)
     {
         cardDeck.push(array[j]);
     }
-    //for (int j = 0; j < 52 ; ++j)
+    //for (int j = 0; j < SIZE ; ++j)
     {
         //might cause problems with the nodes. better do delete Cards later.
         //delete array[j];
     }
 
    /* DBG ONLY
-    for (int i = 0; i < 52; i++)
+    for (int i = 0; i < SIZE; i++)
     {
         cout<< cardDeck.peek()->toString()<<" "<<cardDeck.peek()->getValue()<<endl;
         cardDeck.pop();
@@ -112,7 +112,7 @@ void makeCardDeck(Stack<Card*> &cardDeck)
     //           v v v v
     //Card* a= nullptr, *b= nullptr, *c= nullptr, *d= nullptr; <---old fix which is now obsolete.
     /*       -------------------|| Bug  creating new cards dynamically overrites old entries, new reuse reserved memory ||----------------------
-    Card* array[52]={nullptr};
+    Card* array[SIZE]={nullptr};
     for (int i = 0, arrayIndexer=0; i < 13  ; ++i, arrayIndexer += 4)
     {
         array[arrayIndexer] = new Card(suits[0],values[i],names[i]);
@@ -155,7 +155,7 @@ void shuffleCardDeck(Stack<Card*> &cardDeck)
 	// Blanda korten i kortleken
 	// Tips! Plocka ut alla kort från kortleken (CardDeck)
 	// och blanda dem för att därefter placera tillbaka korten i kortleken (CardDeck)
-    Card** ptr=new Card*[52];
+    Card** ptr=new Card*[SIZE];
     Card* swap = nullptr;
     int nrOfCardsInDeck=0;
     int p = 0;
