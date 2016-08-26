@@ -91,8 +91,9 @@ void makeCardDeck(Stack<Card*> &cardDeck)
     {
         cardDeck.push(array[j]);
     }
-    for (int j = 0; j < 52 ; ++j)
+    //for (int j = 0; j < 52 ; ++j)
     {
+        //might cause problems with the nodes. better.
         //delete array[j];
     }
 
@@ -102,6 +103,9 @@ void makeCardDeck(Stack<Card*> &cardDeck)
         cout<< cardDeck.peek()->toString()<<" "<<cardDeck.peek()->getValue()<<endl;
         cardDeck.pop();
     } END DBG*/
+    //code below candidate for deletion.
+    //           | | | |
+    //           v v v v
     //Card* a= nullptr, *b= nullptr, *c= nullptr, *d= nullptr; <---old fix which is now obsolete.
     /*       -------------------|| Bug  creating new cards dynamically overrites old entries, new reuse reserved memory ||----------------------
     Card* array[52]={nullptr};
@@ -140,7 +144,8 @@ void makeCardDeck(Stack<Card*> &cardDeck)
     }
     */
 }
-//DBG : works (old bug yet to be solved)  fix memleak
+//DBG : works (old bug yet to be solved)
+// shuffleCardsDeck never deletes cards.
 void shuffleCardDeck(Stack<Card*> &cardDeck)
 {
 	// Blanda korten i kortleken
@@ -198,7 +203,7 @@ void shuffleCardDeck(Stack<Card*> &cardDeck)
     }
     for (int i = 0; i < nrOfCardsInDeck ; ++i)
     {
-        delete ptr[i];
+        //delete ptr[i];
     }
     delete[] ptr;
 }
@@ -254,10 +259,12 @@ bool handleCurrentPlayer(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Play
     cout << "Sum of pile: "<< cardSum<<endl;
     cout << "Player: "<< players.currentItem().getName()<<endl;
     cout << "At hand: \n"<< players.currentItem().getHandAsString()<<endl;
-    cout << "enter 1 or 2 or 3"<< endl;
+    cout << "enter 1 or 2 or 3 (or 9 for selfdestruct)"<< endl;
     int choice = 0;
     cin >> choice;
     --choice;
+    if((choice+1) == 9 )
+        return false;
     cardPile.push(players.currentItem().returnCard(choice));
     int values[] = { 1, 2, 3, 4, 5, 6, 7, 0, 0, -10, 99, 10, 10 };
     switch(cardPile.peek()->getValue())

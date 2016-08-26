@@ -71,6 +71,7 @@ template <class T>
 //DBG: works
 Stack<T>::~Stack()
 {
+
     if(this->nrOfElements > 0)
     {
         Node* del;
@@ -81,34 +82,35 @@ Stack<T>::~Stack()
             delete del;
         }
         delete this->top;
-        this->top= nullptr;
-        this->ptr= nullptr;
+
     }
+    this->top= nullptr;
+    this->ptr= nullptr;
 }
 template <class T>
 //DBG: works
 void Stack<T>::push(const T &element)
 {
+    Node* pTr = new Node(element);
     if( this->nrOfElements < 1)
     {
-        this->top = new Node(element);
+        this->top = pTr;
         this->ptr = this->top;
         this->nrOfElements++;
     }
     else
     {
-        this->top->next = new Node(element);
+        this->top->next = pTr;
         this->top = this->top->next;
         this->nrOfElements++;
     }
-
 
 }
 template <class T>
 T Stack<T>::pop() throw(string)
 {
-    T result;
-    Node* rm, *walker;
+    T result = nullptr;
+    Node*walker,*rm;
     if(this->nrOfElements < 1)
     {
         throw string("Exception: empty queue");
@@ -121,7 +123,8 @@ T Stack<T>::pop() throw(string)
     result = this->top->data;
     rm = this->top;
     this->top = walker;
-    delete rm;
+    this->top->next= nullptr;
+    delete rm; // <----------------------------------------------------------[bug starter candidate]
     this->nrOfElements--;
     return result;
 }
