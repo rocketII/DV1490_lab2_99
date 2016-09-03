@@ -1,10 +1,7 @@
 //
 // Created by root on 2016-08-18.
 //
-/*TODO: Q:(till bakre)<-[a]<->[b]<->[c]->(till fronten) där current är på b. ta bort b. flytta till a || c?
- *A:För ditt exemel så ska current efter borttagning av b peka på c (som var efterföljare till b).
- * Bug#     description                                                                                         solved?
- * 0x00     deepcopy dosen't make identical chain(items>2), one position wrong. missing on element.                 1
+/*
  */
 #ifndef DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
 #define DV1490_LAB2_99_CIRCULARDOUBLEDIRECTEDLIST_H
@@ -37,7 +34,7 @@ public:
     //other
     CircularDoubleDirectedList& operator=(const CircularDoubleDirectedList& origin);
     bool operator==(const T& origin);//compare T origin with this node T data.
-    //Inherited
+    //Inherited members
     virtual void add(T& item);
     virtual bool remove(T& item) throw(string); // requires == operator of item
     virtual int size() const;
@@ -302,28 +299,28 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(string)
 
         //search linear time.
         //Better: could sort att then use binary search.
-        for (int i = 0; i < this->size() ; ++i)
+        if(this->size() > 2)
         {
-            if(this->size() > 2)
+            for (int i = 0; i < this->size() ; ++i)
             {
-                if( (exterminate->data == item) && (this->current != exterminate))
+                if( (exterminate != this->current) && (exterminate->data == item) )
                 {
                     exterminate->next->prev = exterminate->prev;
                     exterminate->prev->next = exterminate->next;
                     delete exterminate;
-                    exterminate = this->current;
+                    exterminate = nullptr; //exterminate used now point to null.
                     this->nrOfItems--;
-                    flag = true;
+                    return true;
                 }
-                else if((exterminate->data == item) && (this->current == exterminate) )
+                else if( (exterminate == this->current) || (exterminate->data == item) )
                 {
                     this->move();
                     exterminate->next->prev = exterminate->prev;
                     exterminate->prev->next = exterminate->next;
                     delete exterminate;
-                    exterminate = this->current;
+                    exterminate = nullptr;
                     this->nrOfItems--;
-                    flag = true;
+                    return true;
                 }
                 else
                 {
@@ -344,35 +341,32 @@ bool CircularDoubleDirectedList<T>::remove(T &item) throw(string)
 
                 }
             }
-            else if(this->size() == 2)
+
+        }
+        else if(this->size() == 2)
+        {
+            if( this->current->data == item)
             {
-                if( this->operator==(item))
-                {
-                    exterminate = this->current;
-                    this->current = this->current->next;
-                    this->current->next->prev = this->current->next;
-                    this->current->next->next = this->current->next;
-                    delete exterminate;
-                    this->current->next = this->current;
-                    this->current->prev = this->current;
-                    this->nrOfItems--;
-                    flag = true;
-                }
-                else
-                    this->move();
+                exterminate = this->current;
+                this->current = this->current->next;
+                delete exterminate;
+                this->current->next = this->current;
+                this->current->prev = this->current;
+                this->nrOfItems--;
+                flag = true;
             }
-            else if(this->size() == 1)
+            else
+                this->move();
+        }
+        else if(this->size() == 1)
+        {
+            if( this->current->data == item)
             {
-                if( this->operator==(item))
-                {
-                    exterminate = this->current;
-                    this->current->next = this->current;
-                    this->current->prev = this->current;
-                    delete exterminate;
-                    this->current = nullptr;
-                    this->nrOfItems--;
-                    flag = true;
-                }
+                exterminate = this->current;
+                delete exterminate;
+                this->current = nullptr;
+                this->nrOfItems--;
+                flag = true;
             }
         }
     }
@@ -464,7 +458,7 @@ template <class T>
 //DBG: works
 bool CircularDoubleDirectedList<T>::operator==(const T &origin)
 {
-    if(this->current->data == origin)
+    if(this == origin)
     {
         return true;
     }

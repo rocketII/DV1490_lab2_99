@@ -5,7 +5,14 @@
 #include <iostream>
 #include <string>
 #include <ctime>
-
+/*  values for cards
+      dam och kung ökar värdet på korthögen med 10
+      knekt sätter korthögens värde till 99
+      10 minskar korthögens värde med 10
+      9 bibehåller korthögens värde men vänder håll på turordningen för spelarna
+      8 bibehåller korthögensvärde
+      ess ökar korthögens värde med 1
+      övriga kort ökar korthögens värde kortets värde (ex-vis en 5:a ökar korthögens värde med 5)*/
 using namespace std;
 
 const int SIZE = 52;
@@ -264,8 +271,21 @@ bool handleCurrentPlayer(Stack<Card*> &cardDeck, CircularDoubleDirectedList<Play
     cout << "Player: "<< players.currentItem().getName()<<endl;
     cout << "At hand: \n"<< players.currentItem().getHandAsString()<<endl;
     cout << "enter 1 or 2 or 3 (or 9 for selfdestruct)"<< endl;
-    int choice = 0;
+    ushort choice = 0;
     cin >> choice;
+    bool stupidInput = true;
+    if ( !(choice > 0 && choice < 4) && !choice == 9)
+    {
+        while (stupidInput)
+        {
+            cout << "Wrong!\n\aenter 1 or 2 or 3 (or 9 for selfdestruct)" << endl;
+            choice = 0;
+            cin >> choice;
+            if (choice > 0 && choice < 4) {
+                stupidInput = false;
+            }
+        }
+    }
     --choice;
     if((choice+1) == 9 )
         return false;

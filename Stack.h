@@ -1,7 +1,6 @@
 //
 // Created by root on 2016-08-21.
 //
-
 #ifndef DV1490_LAB2_99_STACK_H
 #define DV1490_LAB2_99_STACK_H
 #include "IStack.h"
@@ -20,8 +19,7 @@ private:
         ~Node(){};
     };
     int nrOfElements;
-
-    Node *ptr, *top;
+    Node *top;
 public:
     Stack();
     ~Stack();
@@ -35,97 +33,70 @@ public:
 //template <class T>
 /*Stack<T>::Stack(const Stack& origin)
 {
-    this->nrOfElements = origin.nrOfElements;
-    if(this->nrOfElements > 0)
-    {
-        this-> top = nullptr;
-        Node* walker = origin.ptr;
-        this->ptr = new Node(walker);
-        this->top = this->ptr;
-        if(walker->next != nullptr)
-        {
-            walker = walker->next;
-        }
-
-        while ( this->top->data != origin.top->data)
-        {
-
-            this->top->next= new Node(walker);
-            this->top = this->top->next;
-            if(walker->next != nullptr)
-            {
-                walker = walker->next;
-            }
-        }
-    }
+    ; //meh!
 }*/
 template <class T>
 //DBG: works
 IStack<T>::~IStack() { }
 template <class T>
 //DBG: works
-Stack<T>::Stack() : nrOfElements(0), ptr(nullptr), top(nullptr)
+Stack<T>::Stack() : nrOfElements(0), top(nullptr)
 {}
 
 template <class T>
-//DBG: works
+//DBG: ready4test
 Stack<T>::~Stack()
 {
-
-    if(this->nrOfElements > 0)
+    if( this->nrOfElements > 0)
     {
-        Node* del;
-        while (this->top != this->ptr)
+        Node *rm;
+        while (this->top->next != nullptr)
         {
-            del = this->ptr ;
-            this->ptr = this->ptr->next;
-            delete del;
+            rm = this->top;
+            this->top = this->top->next;
+            delete rm;
         }
         delete this->top;
-
+        rm = nullptr;
     }
     this->top= nullptr;
-    this->ptr= nullptr;
+
 }
 template <class T>
-//DBG: works
+//DBG: ready4test
 void Stack<T>::push(const T &element)
 {
-    //Node* pTr = new Node(element);
+    Node* ptr;
     //Node cc(element);
     if( this->nrOfElements < 1)
     {
         this->top = new Node(element);
-        this->ptr = this->top;
         this->nrOfElements++;
     }
     else
     {
-        this->top->next = new Node(element);
-        this->top = this->top->next;
+        ptr = new Node(element);
+        ptr->next = this->top;
+        this->top = ptr;
         this->nrOfElements++;
     }
 
 }
 template <class T>
+//DBG: ready4test
 T Stack<T>::pop() throw(string)
 {
     T result = nullptr;
-    Node*walker,*rm;
+    Node*rm, *ptr;
     if(this->nrOfElements < 1)
     {
         throw string("Exception: empty queue");
     }
-    walker = this->ptr;
-    for (int i = 0; i < (this->nrOfElements-2) ; ++i)
-    {
-        walker = walker->next;
-    }
     result = this->top->data;
     rm = this->top;
-    this->top = walker;
-    this->top->next= nullptr;
-    delete rm; // <----------------------------------------------------------[bug starter candidate]
+    this->top = this->top->next;
+
+    delete rm;
     this->nrOfElements--;
     return result;
 }
